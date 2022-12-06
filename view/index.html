@@ -24,17 +24,46 @@
         margin: 0px;
     }
 
-    button {
+    main button {
         min-width: 250px;
         min-height: 60px;
     }
+
+    #signupDialog button{
+      min-width: 208.43px;
+      min-height: 38px;
+      margin: 10px;
+    }
+
+    #loginDialog button{
+      min-width: 208.43px;
+      min-height: 38px;
+      margin: 10px;
+    }
+
 </style>
 
 <script>
+
+    function signup(){
+      const modal = document.getElementById('signupDialog');
+      modal.showModal();
+    }
+  
     function login(){
         const modal = document.getElementById('loginDialog');
         console.log("oxi " + modal)
         modal.showModal();
+    }
+
+    function cancelarSignup(){
+      const modal = document.getElementById('signupDialog');
+      modal.close();
+    }
+
+    function cancelarLogin(){
+      const modal = document.getElementById('loginDialog');
+      modal.close();
     }
 
 </script>
@@ -47,37 +76,70 @@
         </div>
         <div class="d-flex align-items-center flex-column p-3 gap-2"> 
             <button type="button" class="btn btn-dark btn-lg" onclick="login()">Login</button>
-            <button type="button" class="btn btn-light btn-lg">Register</button>
+            <button type="button" class="btn btn-light btn-lg" onclick="signup()">Register</button>
         </div>
-        <a class="text-white p-3 fs-5" href="">Ver minha lista de afazeres</a>
+        <a class="text-white p-3 fs-5" href="todo.html">Ver minha lista de afazeres</a>
     </main>
 
-    <div class="modal fade" id="loginDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">Recipient:</label>
-                  <input type="text" class="form-control" id="recipient-name">
-                </div>
-                <div class="mb-3">
-                  <label for="message-text" class="col-form-label">Message:</label>
-                  <textarea class="form-control" id="message-text"></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Send message</button>
-            </div>
-          </div>
+    <dialog id="signupDialog">
+      <h1>My To-Dos!</h1>
+      <h5>Novo Usuário</h5>
+      <form class="mb">
+        <div class="col-md">
+          <label for="inputNome" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="inputNome" placeholder="Fulano">
         </div>
-      </div>
+        <div class="col-md">
+          <label for="inputEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+        </div>
+        <div class="col-md">
+          <label for="inputNasc" class="form-label">Nascimento</label>
+          <input type="date" class="form-control" id="inputNasc">
+        </div>
+        <div class="col-md">
+          <label for="inputType" class="form-label">Type</label>
+          <input type="text" class="form-control" id="inputType" placeholder="Usuário">
+        </div>
+        <div class="col-md">
+          <label for="inputLogin" class="form-label">Login</label>
+          <input type="text" class="form-control" id="inputLogin">
+        </div>
+        <div class="col-md">
+          <label for="inputPassword" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="inputPassword">
+        </div>
+        <div class="col-md">
+          <button type="submit" class="btn btn-success">Salvar</button>
+        </div>
+        <div class="col-md">
+          <button type="button" class="btn btn-light" onclick="cancelarSignup()">Cancelar</button>
+        </div>
+
+      </form>
+    </dialog>
+
+    <dialog id="loginDialog">
+      <h1>My To-Dos!</h1>
+      <h5>Novo Usuário</h5>
+      <form class="mb">
+        <div class="col-md">
+          <label for="inputEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+        </div>
+        <div class="col-md">
+          <label for="inputPassword" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="inputPassword">
+        </div>
+        <div class="col-md">
+          <button type="button" class="btn btn-success">Logar</button>
+        </div>
+        <div class="col-md">
+          <button type="button" class="btn btn-light" onclick="cancelarLogin()">Cancelar</button>
+        </div>
+
+      </form>
+    </dialog>
       
 </body>
 
