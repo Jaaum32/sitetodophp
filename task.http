@@ -1,0 +1,34 @@
+@URL=http://localhost/sitetodophp
+
+###criar uma task 
+POST {{URL}}/task/create.php
+Content-Type: application/json
+
+{
+    "titulo": "Reunião",
+    "descricao": "asdlfgaksdfkasdfkmasdmfkakmsdfa",
+    "concluido": true,
+    "id_usuario": 1,
+    "data": "2022-12-25 04:20:44"
+}
+
+### Obter uma task pelo id
+GET {{URL}}/task/list.php?id=9
+
+### Obter todas as tasks
+GET {{URL}}/task/list.php?id_usuario=1
+
+### atualizar uma task
+POST {{URL}}/task/update.php?id=8
+Content-Type: application/json
+
+{
+    "titulo": "Reuniao",
+    "descricao": "descricao random",
+    "concluido": false,
+    "id_usuario": 1,
+    "data": "2022-12-25 04:20:44"
+}
+
+### remover uma task
+GET {{URL}}/task/delete.php?id=7
