@@ -17,6 +17,17 @@ class UserDAO
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
+    public function getByEmail($email)
+    {
+        //Prepare our select statement.
+        $stmt = $this->pdo->prepare("SELECT id, senha FROM tb_usuario WHERE email = :email");
+        $stmt->bindValue(":email", $email);
+        $stmt->execute();
+
+        // Retorna um array de objetos
+        return $stmt->fetchObject();
+    }
+
     public function insert($user)
     {
         $stmt = $this->pdo->prepare("INSERT INTO tb_usuario (nome, nascimento, email, senha) VALUES (:nome, :nascimento, :email, :senha)");
