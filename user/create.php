@@ -8,10 +8,15 @@ $json = file_get_contents('php://input');
 
 $user = json_decode($json);
 
-try {
-    $user = $userDao->insert($user);
+$responseBody = ' ';
 
-    $responseBody = json_encode($user);
+try {
+    if(empty($user) || $user.is_null()){
+        echo "a";
+    }else{
+        $user = $userDao->insert($user);
+        $responseBody = json_encode($user);
+    }
 }catch(Exception $e){
     http_response_code(400);
     $responseBody = '{ "message": "não inseriu ;-;. Erro:: Código: "' . $e->getCode() . '. Mensagem: ' . $e->getMessage() . '}';

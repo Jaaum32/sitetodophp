@@ -34,7 +34,50 @@
   }
 </style>
 
-<script src="../js/signup.js"></script>
+<script>
+  function signup() {
+    //alert("entrou");
+    const URL_API = "http://localhost/sitetodophp/user/create.php";
+
+
+
+    const name = document.getElementById("inputNome").value;
+    const email = document.getElementById("inputEmail").value;
+    const nascimento = document.getElementById("inputNascimento").value;
+    const type = document.getElementById("inputType").value;
+    const login = document.getElementById("inputLogin").value;
+    const pass = document.getElementById("inputPass").value;
+
+    //alert("eNTROU NESSE DIABOOO");
+    //sleep(5000);
+
+    //const body = '{"nome": "' + name + '", "email": "' + email + '", "nascimento": "' + nascimento + '", "login": "' + login + '", "senha": "' + pass + '"}';
+
+    const body = {
+      nome: name,
+      email: email,
+      nascimento: nascimento,
+      login: login,
+      senha: pass
+    }
+
+    //alert(body);
+    console.log(JSON.stringify(body));
+
+    fetch(URL_API, {
+      method: 'POST',
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      alert(err);
+    });
+  }
+</script>
 
 <body class="d-flex bg-primary bg-gradient justify-content-center">
 
@@ -68,7 +111,8 @@
             </div>
             <div class="mb-2">
               <label for="inputEmail" class="col-form-label">Email</label>
-              <input type="email" required value="email@email.com" class="form-control" id="inputEmail" placeholder="name@example.com">
+              <input type="email" required value="email@email.com" class="form-control" id="inputEmail"
+                placeholder="name@example.com">
             </div>
             <div class="mb-2">
               <label for="inputNasc" class="col-form-label">Nascimento</label>

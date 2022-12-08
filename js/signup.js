@@ -47,8 +47,6 @@ function signup() {
         alert(res);
         console.log(res);
         alert("deu certo?")
-    })
-        .catch(function (err) {
-            alert(err);
-        });
+    }).catch(function (err) {
+            alert(err);});
 }
