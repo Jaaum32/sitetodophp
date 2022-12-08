@@ -29,42 +29,12 @@
     min-height: 60px;
   }
 
-  #signupDialog button {
-    min-width: 208.43px;
-    min-height: 38px;
-    margin: 10px;
-  }
-
-  #loginDialog button {
+  .modal-footer button {
     min-width: 208.43px;
     min-height: 38px;
     margin: 10px;
   }
 </style>
-
-<script>
-
-  function signup() {
-    const modal = document.getElementById('signupDialog');
-    modal.showModal();
-  }
-
-  function login() {
-    const modal = document.getElementById('loginDialog');
-    modal.showModal();
-  }
-
-  function cancelarSignup() {
-    const modal = document.getElementById('signupDialog');
-    modal.close();
-  }
-
-  function cancelarLogin() {
-    const modal = document.getElementById('loginDialog');
-    modal.close();
-  }
-
-</script>
 
 <body class="d-flex bg-primary bg-gradient justify-content-center">
   <main class="d-flex gap-5 align-items-center align-self-center flex-column">
@@ -73,71 +43,84 @@
       <h4 class="lead text-white fs-1"> Organize suas tarefas facilmente</h4>
     </div>
     <div class="d-flex align-items-center flex-column p-3 gap-2">
-      <button type="button" class="btn btn-dark btn-lg" onclick="login()">Login</button>
-      <button type="button" class="btn btn-light btn-lg" onclick="signup()">Register</button>
+      <button type="button" class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#login">Login</button>
+      <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"
+        data-bs-target="#signup">Register</button>
     </div>
     <a class="text-white p-3 fs-5" href="todo.html">Ver minha lista de afazeres</a>
   </main>
 
-  <dialog id="signupDialog">
-    <h1>My To-Dos!</h1>
-    <h5>Novo Usuário</h5>
-    <form class="mb">
-      <div class="col-md">
-        <label for="inputNome" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="inputNome" placeholder="Fulano">
+  <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-secondary" style="--bs-bg-opacity: .5;">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">My To-Dos</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h5>Novo usuário</h5>
+          <form>
+            <div class="mb-2">
+              <label for="inputNome" class="col-form-label">Nome</label>
+              <input type="text" class="form-control" id="inputNome" placeholder="Fulano">
+            </div>
+            <div class="mb-2">
+              <label for="inputEmail" class="col-form-label">Email</label>
+              <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+            </div>
+            <div class="mb-2">
+              <label for="inputNasc" class="col-form-label">Nascimento</label>
+              <input type="date" class="form-control" id="inputNasc">
+            </div>
+            <div class="mb-2">
+              <label for="inputType" class="col-form-label">Type</label>
+              <input type="text" class="form-control" id="inputType" placeholder="Usuário">
+            </div>
+            <div class="mb-2">
+              <label for="inputLogin" class="col-form-label">Login</label>
+              <input type="text" class="form-control" id="inputLogin">
+            </div>
+            <div class="mb-2">
+              <label for="inputPassword" class="col-form-label">Senha</label>
+              <input type="password" class="form-control" id="inputPassword">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success">Salvar</button>
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+        </div>
       </div>
-      <div class="col-md">
-        <label for="inputEmail" class="form-label">Email</label>
-        <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
-      </div>
-      <div class="col-md">
-        <label for="inputNasc" class="form-label">Nascimento</label>
-        <input type="date" class="form-control" id="inputNasc">
-      </div>
-      <div class="col-md">
-        <label for="inputType" class="form-label">Type</label>
-        <input type="text" class="form-control" id="inputType" placeholder="Usuário">
-      </div>
-      <div class="col-md">
-        <label for="inputLogin" class="form-label">Login</label>
-        <input type="text" class="form-control" id="inputLogin">
-      </div>
-      <div class="col-md">
-        <label for="inputPassword" class="form-label">Senha</label>
-        <input type="password" class="form-control" id="inputPassword">
-      </div>
-      <div class="col-md">
-        <button type="submit" class="btn btn-success">Salvar</button>
-      </div>
-      <div class="col-md">
-        <button type="button" class="btn btn-light" onclick="cancelarSignup()">Cancelar</button>
-      </div>
+    </div>
+  </div>
 
-    </form>
-  </dialog>
-
-  <dialog id="loginDialog">
-    <h1>My To-Dos!</h1>
-    <h5>Novo Usuário</h5>
-    <form class="mb">
-      <div class="col-md">
-        <label for="inputEmail" class="form-label">Email</label>
-        <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+  <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-secondary" style="--bs-bg-opacity: .5;">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">My To-Dos</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h5>Login</h5>
+          <form>
+            <div class="mb-2">
+              <label for="inputEmail" class="col-form-label">Email</label>
+              <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+            </div>
+            <div class="mb-2">
+              <label for="inputPassword" class="col-form-label">Senha</label>
+              <input type="password" class="form-control" id="inputPassword">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success">Logar</button>
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+        </div>
       </div>
-      <div class="col-md">
-        <label for="inputPassword" class="form-label">Senha</label>
-        <input type="password" class="form-control" id="inputPassword">
-      </div>
-      <div class="col-md">
-        <button type="button" class="btn btn-success">Logar</button>
-      </div>
-      <div class="col-md">
-        <button type="button" class="btn btn-light" onclick="cancelarLogin()">Cancelar</button>
-      </div>
-
-    </form>
-  </dialog>
+    </div>
+  </div>
 
 </body>
 
