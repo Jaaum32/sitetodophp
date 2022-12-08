@@ -44,22 +44,39 @@ function sleep(milliseconds) {
   } while (currentDate - date < milliseconds);
 }
 
-  async function signup() {
+function returnVar(a){
+  return a;
+}
+
+  function signup() {
     const URL_API = "http://localhost/sitetodophp/user/create.php";
 
-    const name = document.getElementById("inputNome").value;
-    const email = document.getElementById("inputEmail").value;
-    const nascimento = document.getElementById("inputNascimento").value;
-    const type = document.getElementById("inputType").value;
-    const login = document.getElementById("inputLogin").value;
-    const pass = document.getElementById("inputPass").value;
+    
 
+     const name = document.getElementById("inputNome").value;
+     const email = document.getElementById("inputEmail").value;
+     const nascimento = document.getElementById("inputNascimento").value;
+     const type = document.getElementById("inputType").value;
+     const login = document.getElementById("inputLogin").value;
+     const pass = document.getElementById("inputPass").value;
 
-    const body = '{"nome": "' + name + '", "email": "' + email + '", "nascimento": "' + nascimento + '", "login": "' + login + '", "senha": "' + pass + '"}';
+    //alert("eNTROU NESSE DIABOOO");
+    //sleep(5000);
 
+    //const body = '{"nome": "' + name + '", "email": "' + email + '", "nascimento": "' + nascimento + '", "login": "' + login + '", "senha": "' + pass + '"}';
+
+    const body = {
+      nome: name,
+      email: email,
+      nascimento: nascimento,
+      login: login,
+      senha: pass
+    }
+    
     //alert(body);
-    console.log(JSON.parse(body));
+    console.log(JSON.stringify(body));
 
+    sleep(3000);
 
     fetch(URL_API, {
       method: 'POST',
@@ -67,13 +84,20 @@ function sleep(milliseconds) {
         Accept: 'application.json',
         'Content-Type': 'application/json'
       },
-      body: JSON.parse(body)
-    }).then(response => response.json())
-      .then(json => console.log(json))
-      .catch(err => console.log(err));
+      body: JSON.stringify(body)
+    }).then(function (res){
+      alert(res);
+      alert("deu certo?")
+      sleep(5000);
+    })
+      .catch(function(err){
+        alert("Deu erro");
+        sleep(5000);
+      });
 
-      //alert("odiooooo");
-      sleep(30000);
+
+      alert("odiooooo");
+      sleep(5000);
   }
 </script>
 
@@ -113,7 +137,7 @@ function sleep(milliseconds) {
             </div>
             <div class="mb-2">
               <label for="inputNasc" class="col-form-label">Nascimento</label>
-              <input type="date" required value="2022-12-07" class="form-control" id="inputNasc">
+              <input type="date" required value="2022-12-07" class="form-control" id="inputNascimento">
             </div>
             <div class="mb-2">
               <label for="inputType" class="col-form-label">Type</label>
@@ -125,7 +149,7 @@ function sleep(milliseconds) {
             </div>
             <div class="mb-2">
               <label for="inputPassword" class="col-form-label">Senha</label>
-              <input type="password" required value="senha" class="form-control" id="inputPassword">
+              <input type="password" required value="senha" class="form-control" id="inputPass">
             </div>
             <button type="submit" class="btn btn-success">Salvar</button>
             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
