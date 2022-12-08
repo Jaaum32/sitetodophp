@@ -1,0 +1,13 @@
+@JWT = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkFkbWluaXN0cmFkb3IiLCJyb2xlIjoiYWRtaW4ifQ.n-O6y4pX8XDK9boLE3vcYkpgyFpCtMlmF9ajzg3d3cM
+
+@URL_BASE=http://localhost/sitetodophp/auth
+
+### Obter um token
+
+POST {{URL_BASE}}/auth.php
+Content-Type: application/json
+
+{
+    "email": "erickkgsbr@gmail.com",
+    "password": "123456"
+}

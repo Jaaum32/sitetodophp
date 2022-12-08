@@ -1,0 +1,13 @@
+@URL=http://localhost/sitetodophp
+
+###criar um usuário 
+POST {{URL}}/user/create.php
+Content-Type: application/json
+
+{
+    "nome": "Juca",
+    "nascimento": "2004-06-04",
+    "email": "erickkgsbr@gmail.com",
+    "login": "JUca bala",
+    "senha": "123456"
+}
