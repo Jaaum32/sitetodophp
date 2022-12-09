@@ -49,20 +49,10 @@
                 data-bs-target="#exampleModal">Novo</button>
         </div>
         <hr>
-        <table id="tarefas" class="table table-striped">
-            <tr>
-                <td>
-                    <div class="d-flex justify-content-between">
-                        <h3>Reunião</h3>
-                        <div class="d-flex justify-content-center bg-secondary p-2 rounded-pill"
-                            style="--bs-bg-opacity: .5;">
-                            Daqui a 13 dias.
-                        </div>
-                    </div>
-                    <h5>Reunião de organização do Reveillon 2023</h5>
-                    <h6>Programado para 01/12/2022 11h00min</h6>
-                </td>
-            </tr>
+        <table class="table table-striped">
+            <tbody id="tarefas">
+
+            </tbody>
         </table>
     </main>
 
@@ -108,16 +98,12 @@
         </div>
     </div>
 
-
-
 </body>
 
 <script>
     const URL_LIST = "http://localhost/sitetodophp/task/list.php?id_usuario=1";
 
-    var tarefas = document.getElementById("tarefas");
-    
-    var tarefasArray;
+    const tarefas = document.getElementById("tarefas");
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function () {
@@ -128,43 +114,86 @@
     xmlhttp.open("GET", URL_LIST, true);
     xmlhttp.send();
 
-    function exibir(tarefasArray){
-        tarefasArray.forEach((e)=>{
+    function exibir(tarefasArray) {
+        tarefasArray.forEach((e) => {
             console.log(e.titulo)
 
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            const div = document.createElement('div');
+            const h3 = document.createElement('h3');
+            const h5 = document.createElement('h5');
+            const h6 = document.createElement('h6');
+            const subdiv = document.createElement('div');
 
-        const tr = document.createElement('tr');
-                const td = document.createElement('td');
-                const div = document.createElement('div');
-                const h3 = document.createElement('h3');
-                const h5 = document.createElement('h5');
-                const h6 = document.createElement('h6');
-                const subdiv = document.createElement('div');
+            h3.innerHTML = e.titulo;
+            h5.innerHTML = e.descricao;
+            h6.innerHTML = "Programado para " + formatDate(e.data);
+            div.classList.add("d-flex");
+            div.classList.add("justify-content-between");
+            subdiv.classList.add("d-flex");
+            subdiv.classList.add("justify-content-center");
+            subdiv.classList.add("p-2");
+            subdiv.classList.add("rounded-pill");
 
-                h3.innerHTML = e.titulo;
-                subdiv.innerHTML = "Daqui a " + 0 + " dias"; //conta dos dias
-                h5.innerHTML = e.descricao;
-                h6.innerHTML = "Programado para" + e.data;
-                div.classList.add("d-flex");
-                div.classList.add("justify-content-between");
-                subdiv.classList.add("d-flex");
-                subdiv.classList.add("justify-content-center");
+            const aux = calcTempo(e.data);
+
+            if(aux == 0){
+                subdiv.innerHTML = "Hoje";
+                subdiv.classList.add("bg-warning");
+            }else if(aux == 1){
+                subdiv.innerHTML = "Amanhã";
+                subdiv.classList.add("bg-warning");
+            }else if(aux < 0){
+                subdiv.innerHTML = "Atrasado";
+                subdiv.classList.add("bg-danger");
+                subdiv.classList.add("text-white");
+            }else {
+                subdiv.innerHTML = "Daqui a " + calcTempo(e.data) + " dias";
                 subdiv.classList.add("bg-secondary");
-                subdiv.classList.add("p-2");
-                subdiv.classList.add("rounded-pill");
                 subdiv.style = "--bs-bg-opacity: .5;";
+            }
 
-                div.appendChild(h3);
-                div.appendChild(subdiv);
-                div.appendChild(h5);
-                div.appendChild(h6);
+            tr.setAttribute("data-bs-toggle", "modal");
+            tr.setAttribute("data-bs-target", "#exampleModal");
 
-                td.appendChild(div);
+            div.appendChild(h3);
+            div.appendChild(subdiv);
 
-                tr.appendChild(td);
-                tarefas.appendChild(tr);
-    });
-    
+            td.appendChild(div);
+            td.appendChild(h5);
+            td.appendChild(h6);
+
+            tr.appendChild(td);
+            tarefas.appendChild(tr);
+        });
+
+    }
+
+    function zeroFill(n) {
+        return n < 10 ? `0${n}` : `${n}`;
+    }
+
+    function formatDate(data) {
+        const newData = new Date(data);
+        const d = zeroFill(newData.getDate());
+        const mo = zeroFill(newData.getMonth() + 1);
+        const y = zeroFill(newData.getFullYear());
+        const h = newData.getHours();
+        const m = newData.getMinutes();
+
+        return `${d}/${mo}/${y}` + " " + h + "h" + m + "min";
+    }
+
+    function calcTempo(data){
+        const dataHJ = new Date();
+        dataHJ.setDate(dataHJ.getDate() + 1);
+        const dataPick = new Date(data);
+
+        const diff = dataPick.getTime() -  dataHJ.getTime();
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+        return days;
     }
 
 </script>
