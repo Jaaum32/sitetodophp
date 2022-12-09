@@ -4,7 +4,7 @@ require_once "task.dao.php";
 
 $taskDao = new TaskDao($pdo);
 
-$responseBody = '';
+//$responseBody;
 
 if(@$_REQUEST['id']){
     if($res = $taskDao->get(@$_REQUEST['id'])){
@@ -20,5 +20,6 @@ if(@$_REQUEST['id']){
 }
 
 header('Content-Type: application/json');
+//print_r($responseBody);
 echo $responseBody;
 ?>

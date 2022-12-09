@@ -108,36 +108,37 @@
         </div>
     </div>
 
-   
+
 
 </body>
 
 <script>
     const URL_LIST = "http://localhost/sitetodophp/task/list.php?id_usuario=1";
 
-    const tarefas = document.getElementById("tarefas");
-    const teste = document.getElementsByTagName("pre").innerHTML;
+    var tarefas = document.getElementById("tarefas");
+    
+    var tarefasArray;
 
-    console.log(teste);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function () {
+        const myObj = JSON.parse(this.responseText);
+        console.log(myObj);
+        exibir(myObj);
+    }
+    xmlhttp.open("GET", URL_LIST, true);
+    xmlhttp.send();
 
-    fetch(URL_LIST, {mode: 'no-cors'})
-        .then(function (response) {
-            return response.text();
-        })
-        .then(function (arrayBuffer) {
-            alert("SEXXXXXX")
-            console.log(arrayBuffer);
-            const tarefasArray = arrayBuffer;
+    function exibir(tarefasArray){
+        tarefasArray.forEach((e)=>{
+            console.log(e.titulo)
 
-            console.log(tarefasArray);
 
-            tarefasArray.forEach(e => {
-                const tr = document.createElement('tr');
+        const tr = document.createElement('tr');
                 const td = document.createElement('td');
                 const div = document.createElement('div');
                 const h3 = document.createElement('h3');
-                const h5 = document.createElement('h3');
-                const h6 = document.createElement('h3');
+                const h5 = document.createElement('h5');
+                const h6 = document.createElement('h6');
                 const subdiv = document.createElement('div');
 
                 h3.innerHTML = e.titulo;
@@ -161,7 +162,11 @@
                 td.appendChild(div);
 
                 tr.appendChild(td);
-            });
-        });
+                tarefas.appendChild(tr);
+    });
+    
+    }
+
 </script>
+
 </html>
