@@ -102,24 +102,35 @@
 </body>
 
 <script>
+    function formatDtBd(data) {
+        const newData = new Date(data);
+        const d = zeroFill(newData.getDate());
+        const mo = zeroFill(newData.getMonth() + 1);
+        const y = zeroFill(newData.getFullYear());
+        const h = zeroFill(newData.getHours());
+        const m = zeroFill(newData.getMinutes());
+        const s = "00";
+
+        return `${y}-${mo}-${d} ${h}:${m}:${s}`
+    }
 
     function createTask(){
 
-    const URL_API = "http://localhost/sitetodophp/task/create.php?id_";
-
-
+    const URL_API = "http://localhost/sitetodophp/task/create.php?id_usuario";
 
     const titulo = document.getElementById("titulo").value;
     const descricao = document.getElementById("descricao").value;
-    const datahora = document.getElementById("datahora").value;
+    const datahora = formatDtBd(document.getElementById("datahora").value);
 
+    alert(typeof document.getElementById("datahora").value);
+    alert(typeof formatDtBd(document.getElementById("datahora").value));
     const body = {
         titulo: titulo,
         descricao: descricao,
         datahora: datahora,
         id_usuario: 1
     }
-
+    alert("jao1");
       fetch(URL_API, {
       method: 'POST',
       headers: {
@@ -129,7 +140,7 @@
       body: JSON.stringify(body)
     });
     }
-
+    alert("jao2");
     const URL_LIST = "http://localhost/sitetodophp/task/list.php?id_usuario=1";
 
     const tarefas = document.getElementById("tarefas");
