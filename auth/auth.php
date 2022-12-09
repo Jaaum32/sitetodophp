@@ -25,7 +25,7 @@ $json = file_get_contents('php://input');
 // Transforma o JSON em um Objeto PHP
 $credentials = json_decode($json);
 
-$responseBody = ''; // Variável para armazenar a resposta para o cliente
+$responseBody = 'deu certo?'; // Variável para armazenar a resposta para o cliente
 
 /**
  * Se o usuário for válido, então gera o token.
@@ -33,7 +33,7 @@ $responseBody = ''; // Variável para armazenar a resposta para o cliente
  * Validação fictícia: o usuário deve ser igual a "admin" e a senha igual a "1234".
  */
 
-$user = $userDao->getByEmail($credentials->email);
+$user = $userDao->getByEmail(@$credentials->email);
 print_r($user);
 
 if (empty($user)) {
@@ -61,4 +61,4 @@ if (empty($user)) {
 header('Content-Type: application/json');
 
 // Exibe a resposta
-print_r($responseBody);
+echo ($responseBody);

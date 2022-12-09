@@ -81,7 +81,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form onsubmit="createTask()">
                         <div class="mb-3">
                             <label for="titulo" class="col-form-label">Título:</label>
                             <input type="text" class="form-control" id="titulo">
@@ -98,12 +98,13 @@
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                             <label class="form-check-label" for="flexSwitchCheckDefault">Concluído?</label>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="form" class="btn btn-primary">Salvar</button>
+                        </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Salvar</button>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -113,6 +114,34 @@
 </body>
 
 <script>
+
+    function createTask(){
+
+    const URL_API = "http://localhost/sitetodophp/task/create.php?id_";
+
+
+
+    const titulo = document.getElementById("titulo").value;
+    const descricao = document.getElementById("descricao").value;
+    const datahora = document.getElementById("datahora").value;
+
+    const body = {
+        titulo: titulo,
+        descricao: descricao,
+        datahora: datahora,
+        id_usuario: 1
+    }
+
+      fetch(URL_API, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    }
+
     const URL_LIST = "http://localhost/sitetodophp/task/list.php?id_usuario=1";
 
     var tarefas = document.getElementById("tarefas");

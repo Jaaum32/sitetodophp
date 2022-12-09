@@ -48,11 +48,6 @@
     const login = document.getElementById("inputLogin").value;
     const pass = document.getElementById("inputPass").value;
 
-    //alert("eNTROU NESSE DIABOOO");
-    //sleep(5000);
-
-    //const body = '{"nome": "' + name + '", "email": "' + email + '", "nascimento": "' + nascimento + '", "login": "' + login + '", "senha": "' + pass + '"}';
-
     const body = {
       nome: name,
       email: email,
@@ -61,22 +56,18 @@
       senha: pass
     }
 
-    //alert(body);
-    console.log(JSON.stringify(body));
-
-    fetch(URL_API, {
+      fetch(URL_API, {
       method: 'POST',
       headers: {
-        Accept: 'application.json',
+        'Accept': 'application.json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
-    }).then(function (res) {
-      console.log(res);
-    }).catch(function (err) {
-      alert(err);
     });
 
+    const content =  rawResponse.json();
+    console.log(content)
+  
 
   }
 
@@ -92,9 +83,26 @@
     }
 
 
-    console.log(JSON.stringify(body));
-    alert("asdf")
+    //console.log(JSON.stringify(body));
+    //alert("asdf");
 
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", URL_API);
+
+    xmlHttp.onload = function() {
+      alert("Erick3")
+      console.log(JSON.parse(this.responseText));
+      alert("penisssssssss")
+    }
+
+    
+    //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //alert("erick2")
+    xmlHttp.send(JSON.stringify(body))
+    //alert("erick2")
+
+    
+    /*
     fetch(URL_API,{
       method: 'POST',
       headers: {
@@ -108,8 +116,11 @@
       alert("num foi");
     });
   }
+  */
+}
 
 </script>
+
 
 <body class="d-flex bg-primary bg-gradient justify-content-center">
 
