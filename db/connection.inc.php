@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "260405";
+$password = "0406";
 $dbname = "db_to_do";
 
 // Connect to the MySQL database using the PDO object.

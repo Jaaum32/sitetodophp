@@ -32,9 +32,16 @@
     min-height: 38px;
     margin: 10px;
   }
+
+  img{
+    max-height: 100px; 
+  }
 </style>
 
 <script>
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  
   function signup() {
     //alert("entrou");
     const URL_API = "http://localhost/sitetodophp/user/create.php";
@@ -80,7 +87,7 @@
 
   }
 
-  function signin(){
+  function signin() {
     const URL_API = "http://localhost/sitetodophp/auth/auth.php";
 
     const email = document.getElementById("inputEmailLogin").value;
@@ -95,16 +102,16 @@
     console.log(JSON.stringify(body));
     alert("asdf")
 
-    fetch(URL_API,{
+    fetch(URL_API, {
       method: 'POST',
       headers: {
         Accept: 'application.json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
-    }).then(function (res){
+    }).then(function (res) {
       alert("logou")
-    }).catch(function(err){
+    }).catch(function (err) {
       alert("num foi");
     });
   }
@@ -125,6 +132,20 @@
         data-bs-target="#signup">Register</button>
     </div>
     <a class="text-white p-3 fs-5" href="todo.html">Ver minha lista de afazeres</a>
+
+    <div id="carouselExampleSlidesOnly" class="carousel" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="imagem/adobe.jpg" class="d-block" alt="">
+        </div>
+        <div class="carousel-item">
+          <img src="imagem/pc.png" class="d-block" alt="">
+        </div>
+        <div class="carousel-item">
+          <img src="imagem/soclima.png" class="d-block" alt="">
+        </div>
+      </div>
+    </div>
   </main>
 
   <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -196,7 +217,7 @@
             </div>
           </form>
         </div>
-        
+
       </div>
     </div>
   </div>
