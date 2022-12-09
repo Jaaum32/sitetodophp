@@ -35,30 +35,18 @@
 </style>
 
 <script>
-
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-
-function returnVar(a){
-  return a;
-}
-
   function signup() {
+    //alert("entrou");
     const URL_API = "http://localhost/sitetodophp/user/create.php";
 
-    
 
-     const name = document.getElementById("inputNome").value;
-     const email = document.getElementById("inputEmail").value;
-     const nascimento = document.getElementById("inputNascimento").value;
-     const type = document.getElementById("inputType").value;
-     const login = document.getElementById("inputLogin").value;
-     const pass = document.getElementById("inputPass").value;
+
+    const name = document.getElementById("inputNome").value;
+    const email = document.getElementById("inputEmail").value;
+    const nascimento = document.getElementById("inputNascimento").value;
+    const type = document.getElementById("inputType").value;
+    const login = document.getElementById("inputLogin").value;
+    const pass = document.getElementById("inputPass").value;
 
     //alert("eNTROU NESSE DIABOOO");
     //sleep(5000);
@@ -72,11 +60,9 @@ function returnVar(a){
       login: login,
       senha: pass
     }
-    
+
     //alert(body);
     console.log(JSON.stringify(body));
-
-    sleep(3000);
 
     fetch(URL_API, {
       method: 'POST',
@@ -85,19 +71,11 @@ function returnVar(a){
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
-    }).then(function (res){
-      alert(res);
-      alert("deu certo?")
-      sleep(5000);
-    })
-      .catch(function(err){
-        alert("Deu erro");
-        sleep(5000);
-      });
-
-
-      alert("odiooooo");
-      sleep(5000);
+    }).then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      alert(err);
+    });
   }
 </script>
 
@@ -133,7 +111,8 @@ function returnVar(a){
             </div>
             <div class="mb-2">
               <label for="inputEmail" class="col-form-label">Email</label>
-              <input type="email" required value="email@email.com" class="form-control" id="inputEmail" placeholder="name@example.com">
+              <input type="email" required value="email@email.com" class="form-control" id="inputEmail"
+                placeholder="name@example.com">
             </div>
             <div class="mb-2">
               <label for="inputNasc" class="col-form-label">Nascimento</label>
