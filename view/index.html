@@ -76,7 +76,39 @@
     }).catch(function (err) {
       alert(err);
     });
+
+
   }
+
+  function signin(){
+    const URL_API = "http://localhost/sitetodophp/auth/auth.php";
+
+    const email = document.getElementById("inputEmailLogin").value;
+    const pass = document.getElementById("inputPassLogin").value;
+
+    body = {
+      email: email,
+      senha: pass
+    }
+
+
+    console.log(JSON.stringify(body));
+    alert("asdf")
+
+    fetch(URL_API,{
+      method: 'POST',
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }).then(function (res){
+      alert("logou")
+    }).catch(function(err){
+      alert("num foi");
+    });
+  }
+
 </script>
 
 <body class="d-flex bg-primary bg-gradient justify-content-center">
@@ -149,7 +181,7 @@
         </div>
         <div class="modal-body">
           <h5>Login</h5>
-          <form>
+          <form onsubmit="signin()">
             <div class="mb-2">
               <label for="inputEmailLogin" class="col-form-label">Email</label>
               <input type="email" class="form-control" id="inputEmailLogin" placeholder="name@example.com">
@@ -158,12 +190,13 @@
               <label for="inputPassLogin" class="col-form-label">Senha</label>
               <input type="password" class="form-control" id="inputPassLogin">
             </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Logar</button>
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+            </div>
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success">Logar</button>
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
-        </div>
+        
       </div>
     </div>
   </div>
