@@ -7,10 +7,10 @@ array_push(
     $sqls,
     "CREATE TABLE IF NOT EXISTS tb_usuario (
     id int NOT NULL AUTO_INCREMENT,
-    nome varchar(100) NOT NULL,
-    nascimento date,
-    email varchar(100) NOT NULL,
-    senha varchar(20) NOT NULL default '',
+    nome varchar(100) NULL,
+    nascimento date NULL,
+    email varchar(100) NULL,
+    senha varchar(20) NULL,
     login varchar(20),
     PRIMARY KEY  (id),
     UNIQUE(email)
@@ -24,7 +24,7 @@ array_push(
   id_usuario int,
   titulo varchar(20),
   descricao varchar(60),
-  concluido bit NOT NULL,
+  concluido bit(16),
   data DATETIME,
   PRIMARY KEY  (id),
   foreign key(id_usuario) references tb_usuario(id)
