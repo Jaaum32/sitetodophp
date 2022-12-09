@@ -21,11 +21,7 @@
     }
 </style>
 
-<script>
-    function click(){
-        console.log(document.getElementById('flexSwitchCheckDefault').value);
-    }
-</script>
+
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -49,36 +45,11 @@
     <main class="m-5">
         <div class="d-flex gap-3">
             <h2>Meus afazeres</h2>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Novo</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">Novo</button>
         </div>
         <hr>
-        <table class="table table-striped">
-            <tr>
-                <td>
-                    <div class="d-flex justify-content-between">
-                        <h3>Reunião</h3>
-                        <div class="d-flex justify-content-center bg-secondary p-2 rounded-pill"
-                            style="--bs-bg-opacity: .5;">
-                            Daqui a 13 dias.
-                        </div>
-                    </div>
-                    <h5>Reunião de organização do Reveillon 2023</h5>
-                    <h6>Programado para 01/12/2022 11h00min</h6>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="d-flex justify-content-between">
-                        <h3>Reunião</h3>
-                        <div class="d-flex justify-content-center bg-secondary p-2 rounded-pill"
-                            style="--bs-bg-opacity: .5;">
-                            Daqui a 13 dias.
-                        </div>
-                    </div>
-                    <h5>Reunião de organização do Reveillon 2023</h5>
-                    <h6>Programado para 01/12/2022 11h00min</h6>
-                </td>
-            </tr>
+        <table id="tarefas" class="table table-striped">
             <tr>
                 <td>
                     <div class="d-flex justify-content-between">
@@ -112,22 +83,22 @@
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                          <label for="titulo" class="col-form-label">Título:</label>
-                          <input type="text" class="form-control" id="titulo">
+                            <label for="titulo" class="col-form-label">Título:</label>
+                            <input type="text" class="form-control" id="titulo">
                         </div>
                         <div class="mb-3">
-                          <label for="descricao" class="col-form-label">Descrição:</label>
-                          <textarea class="form-control" id="descricao"></textarea>
+                            <label for="descricao" class="col-form-label">Descrição:</label>
+                            <textarea class="form-control" id="descricao"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="datahora" class="col-form-label">Data e hora:</label>
-                            <input type="text" class="form-control" id="datahora">
-                          </div>
-                          <div class="form-check form-switch">
+                            <input type="datetime-local" class="form-control" id="datahora">
+                        </div>
+                        <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                             <label class="form-check-label" for="flexSwitchCheckDefault">Concluído?</label>
-                          </div>
-                      </form>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -137,6 +108,60 @@
         </div>
     </div>
 
+   
+
 </body>
 
+<script>
+    const URL_LIST = "http://localhost/sitetodophp/task/list.php?id_usuario=1";
+
+    const tarefas = document.getElementById("tarefas");
+    const teste = document.getElementsByTagName("pre").innerHTML;
+
+    console.log(teste);
+
+    fetch(URL_LIST, {mode: 'no-cors'})
+        .then(function (response) {
+            return response.text();
+        })
+        .then(function (arrayBuffer) {
+            alert("SEXXXXXX")
+            console.log(arrayBuffer);
+            const tarefasArray = arrayBuffer;
+
+            console.log(tarefasArray);
+
+            tarefasArray.forEach(e => {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                const div = document.createElement('div');
+                const h3 = document.createElement('h3');
+                const h5 = document.createElement('h3');
+                const h6 = document.createElement('h3');
+                const subdiv = document.createElement('div');
+
+                h3.innerHTML = e.titulo;
+                subdiv.innerHTML = "Daqui a " + 0 + " dias"; //conta dos dias
+                h5.innerHTML = e.descricao;
+                h6.innerHTML = "Programado para" + e.data;
+                div.classList.add("d-flex");
+                div.classList.add("justify-content-between");
+                subdiv.classList.add("d-flex");
+                subdiv.classList.add("justify-content-center");
+                subdiv.classList.add("bg-secondary");
+                subdiv.classList.add("p-2");
+                subdiv.classList.add("rounded-pill");
+                subdiv.style = "--bs-bg-opacity: .5;";
+
+                div.appendChild(h3);
+                div.appendChild(subdiv);
+                div.appendChild(h5);
+                div.appendChild(h6);
+
+                td.appendChild(div);
+
+                tr.appendChild(td);
+            });
+        });
+</script>
 </html>

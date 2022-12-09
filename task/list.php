@@ -6,7 +6,6 @@ $taskDao = new TaskDao($pdo);
 
 $responseBody = '';
 
-
 if(@$_REQUEST['id']){
     if($res = $taskDao->get(@$_REQUEST['id'])){
         $responseBody = json_encode($res);
@@ -21,5 +20,5 @@ if(@$_REQUEST['id']){
 }
 
 header('Content-Type: application/json');
-print_r($responseBody);
+echo $responseBody;
 ?>
