@@ -1,4 +1,6 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 
 /**
  * Este script PHP é um recurso de autenticação. Serve para gerar o token do usuário.
@@ -38,7 +40,7 @@ print_r($user);
 
 if (empty($user)) {
     http_response_code(400);
-    $responseBody = '{ "message ": "Este email não esta cadastrado"}';
+    $responseBody = '{ "message": "Este email não esta cadastrado"}';
 } else {
     if ($user->senha == $credentials->password) {
         // Array de dados para ser carregado no token (aceita qualquer atributo e valor).
@@ -53,7 +55,7 @@ if (empty($user)) {
         $responseBody = "{ \"token\": \"$token\" }";
     } else {
         http_response_code(400);
-        $responseBody = '{ "message ": "Senha incorreta"}';
+        $responseBody = '{ "message": "Senha incorreta"}';
     }
 }
 
