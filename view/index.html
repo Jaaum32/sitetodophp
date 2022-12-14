@@ -33,15 +33,15 @@
     margin: 10px;
   }
 
-  img{
-    max-height: 100px; 
+  img {
+    max-height: 100px;
   }
 </style>
 
 <script>
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
   const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-  
+
   function signup() {
     //alert("entrou");
     const URL_API = "http://localhost/sitetodophp/user/create.php";
@@ -192,7 +192,10 @@
 
           </form>
         </div>
-
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success">Salvar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -221,7 +224,10 @@
             </div>
           </form>
         </div>
-
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Logar</button>
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+        </div>
       </div>
     </div>
   </div>
