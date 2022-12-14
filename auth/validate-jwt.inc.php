@@ -20,7 +20,7 @@ require_once "util/jwtutil.class.php";
  * O token é enviado pelo cliente como o parâmetro
  * authorization.
  */
-$token = @getallheaders()['authorization'];
+$token = @getallheaders()['Authorization'];
 
 $responseBody = ''; // Variável que armazena uma resposta para o cliente
 
@@ -32,7 +32,7 @@ $responseBody = ''; // Variável que armazena uma resposta para o cliente
 if (!isset($token)) {
     // Muda o código de resposta HTTP para 'Unauthorized'
     http_response_code(401);
-    $responseBody = '{ "message": "Sem token" }';
+    $responseBody = '{"message": "Sem token"}';
 } else {
     /**
      * Passo 3) O token é decodificado. Caso dê problema na
@@ -44,7 +44,7 @@ if (!isset($token)) {
         // Gerando a resposta para o cliente, caso o token não
         // seja decodificado corretamente, ou seja, o token é inválido.
         http_response_code(401);
-        $responseBody = '{ "message": "Token inválido" }';
+        $responseBody = '{"message": "Token inválido"}';
     }
 }
 

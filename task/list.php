@@ -1,10 +1,13 @@
 <?php
 require_once "../db/connection.inc.php";
 require_once "task.dao.php";
+require_once "../auth/validate-jwt.inc.php";
 
 $taskDao = new TaskDao($pdo);
 
 $responseBody = '';
+
+$responseBody = $decoded["sub"];
 
 if(@$_REQUEST['id']){
     if($res = $taskDao->get(@$_REQUEST['id'])){
@@ -15,10 +18,12 @@ if(@$_REQUEST['id']){
     }
 }else{
     $responseBody = json_encode(
-        $taskDao->getAll(@$_REQUEST['id_usuario'])
+        $taskDao->getAll(@$decoded["sub"])
     );
 }
 
 header('Content-Type: application/json');
+
+
 echo $responseBody;
 ?>
