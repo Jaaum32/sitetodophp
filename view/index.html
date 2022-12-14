@@ -33,15 +33,15 @@
     margin: 10px;
   }
 
-  img{
-    max-height: 100px; 
+  img {
+    max-height: 100px;
   }
 </style>
 
 <script>
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
   const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-  
+
   function signup() {
     //alert("entrou");
     const URL_API = "http://localhost/sitetodophp/user/create.php";
@@ -63,7 +63,7 @@
       senha: pass
     }
 
-      fetch(URL_API, {
+    fetch(URL_API, {
       method: 'POST',
       headers: {
         'Accept': 'application.json',
@@ -72,9 +72,9 @@
       body: JSON.stringify(body)
     });
 
-    const content =  rawResponse.json();
+    const content = rawResponse.json();
     console.log(content)
-  
+
 
   }
 
@@ -96,19 +96,19 @@
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", URL_API);
 
-    xmlHttp.onload = function() {
+    xmlHttp.onload = function () {
       alert("Erick3")
       console.log(JSON.parse(this.responseText));
       alert("penisssssssss")
     }
 
-    
+
     //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     //alert("erick2")
     xmlHttp.send(JSON.stringify(body))
     //alert("erick2")
 
-    
+
     /*
     fetch(URL_API,{
       method: 'POST',
@@ -124,7 +124,7 @@
     });
   }
   */
-}
+  }
 
 </script>
 
@@ -194,12 +194,12 @@
               <label for="inputPassword" class="col-form-label">Senha</label>
               <input type="password" required value="senha" class="form-control" id="inputPass">
             </div>
-            <button type="submit" class="btn btn-success">Salvar</button>
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
-
           </form>
         </div>
-
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success">Salvar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -222,13 +222,13 @@
               <label for="inputPassLogin" class="col-form-label">Senha</label>
               <input type="password" class="form-control" id="inputPassLogin">
             </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-success">Logar</button>
-              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
-            </div>
+
           </form>
         </div>
-
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Logar</button>
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+        </div>
       </div>
     </div>
   </div>
