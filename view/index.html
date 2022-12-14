@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Do List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.1/font/bootstrap-icons.css">
+</head>
+
+<style>
+  body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+  }
+
+  main button {
+    min-width: 250px;
+    min-height: 60px;
+  }
+
+  .modal-footer button {
+    min-width: 208.43px;
+    min-height: 38px;
+    margin: 10px;
+  }
+
+  img{
+    max-height: 100px; 
+  }
+</style>
+
+<script>
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  
+  function signup() {
+    //alert("entrou");
+    const URL_API = "http://localhost/sitetodophp/user/create.php";
+
+
+
+    const name = document.getElementById("inputNome").value;
+    const email = document.getElementById("inputEmail").value;
+    const nascimento = document.getElementById("inputNascimento").value;
+    const type = document.getElementById("inputType").value;
+    const login = document.getElementById("inputLogin").value;
+    const pass = document.getElementById("inputPass").value;
+
+    const body = {
+      nome: name,
+      email: email,
+      nascimento: nascimento,
+      login: login,
+      senha: pass
+    }
+
+      fetch(URL_API, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    const content =  rawResponse.json();
+    console.log(content)
+  
+
+  }
+
+  function signin() {
+    const URL_API = "http://localhost/sitetodophp/auth/auth.php";
+
+    const email = document.getElementById("inputEmailLogin").value;
+    const pass = document.getElementById("inputPassLogin").value;
+
+    body = {
+      email: email,
+      senha: pass
+    }
+
+
+    //console.log(JSON.stringify(body));
+    //alert("asdf");
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", URL_API);
+
+    xmlHttp.onload = function() {
+      alert("Erick3")
+      console.log(JSON.parse(this.responseText));
+      alert("penisssssssss")
+    }
+
+    
+    //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //alert("erick2")
+    xmlHttp.send(JSON.stringify(body))
+    //alert("erick2")
+
+    
+    /*
+    fetch(URL_API,{
+      method: 'POST',
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      alert("logou")
+    }).catch(function (err) {
+      alert("num foi");
+    });
+  }
+  */
+}
+
+</script>
+
+
+<body class="d-flex bg-primary bg-gradient justify-content-center">
+
+
+  <main class="d-flex gap-5 align-items-center align-self-center flex-column">
+    <div class="d-flex align-items-center flex-column p-3">
+      <h1 class="display-1 text-white fw-bold">My To-Dos!</h1>
+      <h4 class="lead text-white fs-1"> Organize suas tarefas facilmente</h4>
+    </div>
+    <div class="d-flex align-items-center flex-column p-3 gap-2">
+      <button type="button" class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#login">Login</button>
+      <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"
+        data-bs-target="#signup">Register</button>
+    </div>
+    <a class="text-white p-3 fs-5" href="todo.html">Ver minha lista de afazeres</a>
+
+    <div id="carouselExampleSlidesOnly" class="carousel" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="imagem/adobe.jpg" class="d-block" alt="">
+        </div>
+        <div class="carousel-item">
+          <img src="imagem/pc.png" class="d-block" alt="">
+        </div>
+        <div class="carousel-item">
+          <img src="imagem/soclima.png" class="d-block" alt="">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-secondary" style="--bs-bg-opacity: .5;">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">My To-Dos</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h5>Novo usuário</h5>
+          <form onsubmit="signup()">
+            <div class="mb-2">
+              <label for="inputNome" class="col-form-label">Nome</label>
+              <input type="text" required value="Nome" class="form-control" id="inputNome" placeholder="Fulano">
+            </div>
+            <div class="mb-2">
+              <label for="inputEmail" class="col-form-label">Email</label>
+              <input type="email" required value="email@email.com" class="form-control" id="inputEmail"
+                placeholder="name@example.com">
+            </div>
+            <div class="mb-2">
+              <label for="inputNasc" class="col-form-label">Nascimento</label>
+              <input type="date" required value="2022-12-07" class="form-control" id="inputNascimento">
+            </div>
+            <div class="mb-2">
+              <label for="inputType" class="col-form-label">Type</label>
+              <input type="text" required value="fodase" class="form-control" id="inputType" placeholder="Usuário">
+            </div>
+            <div class="mb-2">
+              <label for="inputLogin" class="col-form-label">Login</label>
+              <input type="text" required value="login" class="form-control" id="inputLogin">
+            </div>
+            <div class="mb-2">
+              <label for="inputPassword" class="col-form-label">Senha</label>
+              <input type="password" required value="senha" class="form-control" id="inputPass">
+            </div>
+            <button type="submit" class="btn btn-success">Salvar</button>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-secondary" style="--bs-bg-opacity: .5;">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">My To-Dos</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h5>Login</h5>
+          <form onsubmit="signin()">
+            <div class="mb-2">
+              <label for="inputEmailLogin" class="col-form-label">Email</label>
+              <input type="email" class="form-control" id="inputEmailLogin" placeholder="name@example.com">
+            </div>
+            <div class="mb-2">
+              <label for="inputPassLogin" class="col-form-label">Senha</label>
+              <input type="password" class="form-control" id="inputPassLogin">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Logar</button>
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
