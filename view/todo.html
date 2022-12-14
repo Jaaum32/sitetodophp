@@ -139,19 +139,32 @@
       body: JSON.stringify(body)
     });
     }
-    alert("jao2");
-    const URL_LIST = "http://localhost/sitetodophp/task/list.php?id_usuario=1";
-
-    const tarefas = document.getElementById("tarefas");
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = function () {
-        const myObj = JSON.parse(this.responseText);
-        console.log(myObj);
-        exibir(myObj);
+    
+    function zeroFill(n) {
+        return n < 10 ? `0${n}` : `${n}`;
     }
-    xmlhttp.open("GET", URL_LIST, true);
-    xmlhttp.send();
+
+    function formatDate(data) {
+        const newData = new Date(data);
+        const d = zeroFill(newData.getDate());
+        const mo = zeroFill(newData.getMonth() + 1);
+        const y = zeroFill(newData.getFullYear());
+        const h = newData.getHours();
+        const m = newData.getMinutes();
+
+        return `${d}/${mo}/${y}` + " " + h + "h" + m + "min";
+    }
+
+    function calcTempo(data){
+        const dataHJ = new Date();
+        dataHJ.setDate(dataHJ.getDate() + 1);
+        const dataPick = new Date(data);
+
+        const diff = dataPick.getTime() -  dataHJ.getTime();
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+        return days;
+    }
 
     function exibir(tarefasArray) {
         tarefasArray.forEach((e) => {
@@ -209,32 +222,53 @@
 
     }
 
-    function zeroFill(n) {
-        return n < 10 ? `0${n}` : `${n}`;
+
+    //console.log(localStorage.token)
+    //console.log(localStorage.getItem("token"))
+
+    /*
+    const URL_LIST_TOKEN = "http://localhost/sitetodophp/auth/validate-jwt.inc.php";
+    var id;
+
+    var xmlhttpToken = new XMLHttpRequest();
+    xmlhttpToken.onload = function () {  
+        if(this.status == 200){
+            //console.log(JSON.parse(this.response))
+            id = JSON.parse(this.response)
+            console.log(id)
+        }
     }
 
-    function formatDate(data) {
-        const newData = new Date(data);
-        const d = zeroFill(newData.getDate());
-        const mo = zeroFill(newData.getMonth() + 1);
-        const y = zeroFill(newData.getFullYear());
-        const h = newData.getHours();
-        const m = newData.getMinutes();
+    xmlhttpToken.open("GET", URL_LIST_TOKEN, true);
+    xmlhttpToken.setRequestHeader("Authorization", localStorage.getItem('token'))
+    xmlhttpToken.send();
 
-        return `${d}/${mo}/${y}` + " " + h + "h" + m + "min";
+    console.log(id + "erick")
+    */
+
+    
+    //console.log(localStorage.getItem("token"))
+
+    const URL_LIST = "http://localhost/sitetodophp/task/list.php";
+
+    const tarefas = document.getElementById("tarefas");
+
+    const body = {
+        token : localStorage.token
     }
 
-    function calcTempo(data){
-        const dataHJ = new Date();
-        dataHJ.setDate(dataHJ.getDate() + 1);
-        const dataPick = new Date(data);
-
-        const diff = dataPick.getTime() -  dataHJ.getTime();
-        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-
-        return days;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function () {
+        const myObj = JSON.parse(this.responseText);
+        console.log(myObj);
+        exibir(myObj);
     }
 
+    xmlhttp.open("GET", URL_LIST, true);
+    xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+    xmlhttp.send();
+
+    
 </script>
 
 </html>

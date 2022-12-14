@@ -8,6 +8,6 @@ POST {{URL_BASE}}/auth.php
 Content-Type: application/json
 
 {
-    "email": "erickkgsbr@gmail.com",
+    "email": "erickkgsbr@gmail.com7",
     "password": "123456"
 }

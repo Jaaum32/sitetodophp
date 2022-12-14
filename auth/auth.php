@@ -36,13 +36,13 @@ $responseBody = 'deu certo?'; // Variável para armazenar a resposta para o clie
  */
 
 $user = $userDao->getByEmail(@$credentials->email);
-print_r($user);
+//print_r($user);
 
 if (empty($user)) {
     http_response_code(400);
     $responseBody = '{ "message": "Este email não esta cadastrado"}';
 } else {
-    if ($user->senha == $credentials->password) {
+    if ($user->senha == $credentials->senha) {
         // Array de dados para ser carregado no token (aceita qualquer atributo e valor).
         $payload = [
             "sub" => $user->id
@@ -52,7 +52,8 @@ if (empty($user)) {
         $token = JwtUtil::encode($payload, JWT_SECRET_KEY);
 
         // Gerando a mensagem de resposta para o cliente: um JSON contendo o token.
-        $responseBody = "{ \"token\": \"$token\" }";
+        //$responseBody = "{ \"token\": \"$token\" }";
+        $responseBody = '{"token": "'.$token.'"}';
     } else {
         http_response_code(400);
         $responseBody = '{ "message": "Senha incorreta"}';

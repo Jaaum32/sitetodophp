@@ -26,7 +26,7 @@ class TaskDao
     public function getAll($id_usuario)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM tb_tarefa WHERE id_usuario = :id_usuario");
-        $stmt->bindValue(':id_usuario', 1);
+        $stmt->bindValue(':id_usuario', $id_usuario);
 
         $stmt->execute();
 

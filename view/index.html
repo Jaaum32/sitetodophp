@@ -64,18 +64,31 @@
     }
 
     fetch(URL_API, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application.json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    });
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                //'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
 
-    const content = rawResponse.json();
-    console.log(content)
+        .then(response => { 
+            status = response.status;
+            return response.json();
+        })
+        .then(response => {
+            console.log(response);
 
+            if(status != 200){
+                alert(response.message);
+            }
+            else{
+                localStorage.setItem('token', response.token);
+                console.log(localStorage.getItem('token'));
+            }
 
+        })
   }
 
   function signin() {
@@ -89,42 +102,22 @@
       senha: pass
     }
 
+        const xhttp = new XMLHttpRequest();
 
-    //console.log(JSON.stringify(body));
-    //alert("asdf");
+        xhttp.onload = function(){
+          
+          if(this.status == 200){
+            localStorage.setItem('token', JSON.parse(this.response).token);
+            console.log(localStorage.getItem('token'))
+            window.location.assign("../view/todo.html")
+          }else{
+            //tratar o erro
+          }
+        }
 
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", URL_API);
-
-    xmlHttp.onload = function () {
-      alert("Erick3")
-      console.log(JSON.parse(this.responseText));
-      alert("penisssssssss")
-    }
-
-
-    //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    //alert("erick2")
-    xmlHttp.send(JSON.stringify(body))
-    //alert("erick2")
-
-
-    /*
-    fetch(URL_API,{
-      method: 'POST',
-      headers: {
-        Accept: 'application.json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    }).then(function (res) {
-      alert("logou")
-    }).catch(function (err) {
-      alert("num foi");
-    });
-  }
-  */
-  }
+        xhttp.open("POST", URL_API);
+        xhttp.send(JSON.stringify(body));
+}
 
 </script>
 
@@ -168,7 +161,7 @@
         </div>
         <div class="modal-body">
           <h5>Novo usuário</h5>
-          <form onsubmit="signup()">
+          <form>
             <div class="mb-2">
               <label for="inputNome" class="col-form-label">Nome</label>
               <input type="text" required value="Nome" class="form-control" id="inputNome" placeholder="Fulano">
@@ -194,6 +187,9 @@
               <label for="inputPassword" class="col-form-label">Senha</label>
               <input type="password" required value="senha" class="form-control" id="inputPass">
             </div>
+            <button type="button" onclick="signup()" class="btn btn-success">Salvar</button>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+
           </form>
         </div>
         <div class="modal-footer">
@@ -213,7 +209,7 @@
         </div>
         <div class="modal-body">
           <h5>Login</h5>
-          <form onsubmit="signin()">
+          <form>
             <div class="mb-2">
               <label for="inputEmailLogin" class="col-form-label">Email</label>
               <input type="email" class="form-control" id="inputEmailLogin" placeholder="name@example.com">
@@ -222,7 +218,10 @@
               <label for="inputPassLogin" class="col-form-label">Senha</label>
               <input type="password" class="form-control" id="inputPassLogin">
             </div>
-
+            <div class="modal-footer">
+              <button type="button" onclick="signin()" class="btn btn-success">Logar</button>
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
