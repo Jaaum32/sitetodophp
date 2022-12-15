@@ -46,7 +46,7 @@
         <div class="d-flex gap-3">
             <h2>Meus afazeres</h2>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">Novo</button>
+                data-bs-target="#exampleModal" onclick="esconder()">Novo</button>
         </div>
         <hr>
         <table class="table table-striped">
@@ -86,7 +86,7 @@
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Concluído?</label>
+                            <label class="form-check-label" id="labelCheck" for="flexSwitchCheckDefault">Concluído?</label>
                         </div>
                     </form>
                 </div>
@@ -97,10 +97,25 @@
             </div>
         </div>
     </div>
-
 </body>
 
 <script>
+    function esconder(){
+        const check = document.getElementById("flexSwitchCheckDefault");
+        check.setAttribute("hidden", null);
+        const label = document.getElementById("labelCheck");
+        label.setAttribute("hidden", null);
+    }
+
+    function choosen(info){
+        console.log(info);
+        const e = JSON.parse(info.value);
+        console.log("e=" + e.id);
+        document.getElementById("titulo").value = e.titulo;
+        document.getElementById("descricao").value = e.descricao;
+        document.getElementById("datahora").value = e.data;
+    }
+
     function formatDtBd(data) {
         const newData = new Date(data);
         const d = zeroFill(newData.getDate());
@@ -164,7 +179,7 @@
 
     function calcTempo(data){
         const dataHJ = new Date();
-        dataHJ.setDate(dataHJ.getDate() + 1);
+        dataHJ.setDate(dataHJ.getDate());
         const dataPick = new Date(data);
 
         const diff = dataPick.getTime() -  dataHJ.getTime();
@@ -174,7 +189,7 @@
     }
 
     function exibir(tarefasArray) {
-        tarefasArray.forEach((e) => {
+        tarefasArray.forEach((e, i) => {
             //console.log(e.titulo)
 
             const tr = document.createElement('tr');
@@ -184,6 +199,7 @@
             const h5 = document.createElement('h5');
             const h6 = document.createElement('h6');
             const subdiv = document.createElement('div');
+            const input = document.createElement('input');
 
             h3.innerHTML = e.titulo;
             h5.innerHTML = e.descricao;
@@ -215,6 +231,12 @@
 
             tr.setAttribute("data-bs-toggle", "modal");
             tr.setAttribute("data-bs-target", "#exampleModal");
+            
+            input.setAttribute("type", "hidden");
+            input.value = JSON.stringify(e); 
+            const num = "info" + i;
+            input.setAttribute("id", num);
+            tr.setAttribute("onclick", "choosen(" + num + ")");
 
             div.appendChild(h3);
             div.appendChild(subdiv);
@@ -224,6 +246,7 @@
             td.appendChild(h6);
 
             tr.appendChild(td);
+            tr.appendChild(input);
             tarefas.appendChild(tr);
         });
 
