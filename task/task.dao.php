@@ -53,13 +53,12 @@ class TaskDao
         return $stmt->rowCount();
     }
 
-    public function update($id, $task){
+    public function update($id, $task, $id_usuario){
         $stmt = $this->pdo->prepare("UPDATE tb_tarefa 
         SET
             titulo = :titulo,
             descricao = :descricao,
             data = :data,
-            concluido = :concluido,
             id_usuario = :id_usuario
         WHERE id=:id");
 
@@ -67,9 +66,8 @@ class TaskDao
             'id' => $id,
             'titulo' => $task->titulo,
             'descricao' => $task->descricao,
-            'data' => $task->data,
-            'concluido' => $task->concluido,
-            'id_usuario' => $task->id_usuario
+            'data' => $task->datahora,
+            'id_usuario' => $id_usuario
         ];
 
         return $stmt->execute($dados);

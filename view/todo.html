@@ -22,7 +22,7 @@
 </style>
 
 <script>
-    if(!localStorage.token){
+    if (!localStorage.token) {
         window.location.replace("index.html")
     }
 </script>
@@ -41,7 +41,8 @@
                         <a class="nav-link active" aria-current="page" href="#">Usuário</a>
                     </li>
                 </ul>
-                <a href="index.html" class="navbar-text d-flex justify-content-center" onclick="logout()" id="nomeLogout">Juca (Logout)</a>
+                <a href="index.html" class="navbar-text d-flex justify-content-center" onclick="logout()"
+                    id="nomeLogout">Juca (Logout)</a>
             </div>
         </div>
     </nav>
@@ -49,8 +50,8 @@
     <main class="m-5">
         <div class="d-flex gap-3">
             <h2>Meus afazeres</h2>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#exampleModal" onclick="esconder()">Novo</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                onclick="esconder()">Novo</button>
         </div>
         <hr>
         <table class="table table-striped">
@@ -91,7 +92,8 @@
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" id="labelCheck" for="flexSwitchCheckDefault">Concluído?</label>
+                            <label class="form-check-label" id="labelCheck"
+                                for="flexSwitchCheckDefault">Concluído?</label>
                         </div>
                     </form>
                 </div>
@@ -106,17 +108,17 @@
 
 <script>
 
-    if(!localStorage.token){
+    if (!localStorage.token) {
         window.location.replace("index.html")
     }
 
-    function logout(){
+    function logout() {
         localStorage.clear();
         window.location.reload();
         window.location.replace("index.html")
     }
 
-    function esconder(){
+    function esconder() {
         const check = document.getElementById("flexSwitchCheckDefault");
         check.setAttribute("hidden", null);
         const label = document.getElementById("labelCheck");
@@ -127,17 +129,17 @@
         document.getElementById("datahora").value = "";
 
         const input = document.getElementById('idSalvar');
-        input.value = -1; 
+        input.value = -1;
     }
 
-    function choosen(info){
+    function choosen(info) {
         const e = JSON.parse(info.value);
         document.getElementById("titulo").value = e.titulo;
         document.getElementById("descricao").value = e.descricao;
         document.getElementById("datahora").value = e.data;
 
         const input = document.getElementById('idSalvar');
-        input.value = e.id; 
+        input.value = e.id;
     }
 
     function formatDtBd(data) {
@@ -152,40 +154,67 @@
         return `${y}-${mo}-${d} ${h}:${m}:${s}`
     }
 
-    function createTask(){
+    function createTask() {
+        const idTask = document.getElementById("idSalvar").value;
+        const titulo = document.getElementById("titulo").value;
+        const descricao = document.getElementById("descricao").value;
+        const datahora = formatDtBd(document.getElementById("datahora").value);
 
-    const URL_API = "http://localhost/sitetodophp/task/create.php";
+        console.log(idTask);
 
-    const titulo = document.getElementById("titulo").value;
-    const descricao = document.getElementById("descricao").value;
-    const datahora = formatDtBd(document.getElementById("datahora").value);
+        if (idTask == -1) {
+            const URL_API = "http://localhost/sitetodophp/task/create.php";
+            const body = {
+                titulo: titulo,
+                descricao: descricao,
+                datahora: datahora
+            }
 
-    const body = {
-        titulo: titulo,
-        descricao: descricao,
-        datahora: datahora
-    }
+            console.log(JSON.stringify(body))
 
-    console.log(JSON.stringify(body))
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onload = function () {
+                const myObj = JSON.parse(this.responseText);
+                console.log(myObj);
+                if (this.status == 200) {
+                    window.location.reload();
+                } else {
+                    //tratar erros
+                }
+            }
 
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = function () {
-        const myObj = JSON.parse(this.responseText);
-        console.log(myObj);
-        if(this.status == 200){
-            window.location.reload();
-        }else{
-            //tratar erros
+            xmlhttp.open("POST", URL_API, true);
+            xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+            xmlhttp.send(JSON.stringify(body));
+        } else {
+            const URL_API = "http://localhost/sitetodophp/task/update.php?id="+idTask;
+            const body = {
+                titulo: titulo,
+                descricao: descricao,
+                datahora: datahora
+            }
+
+            console.log(JSON.stringify(body))
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onload = function () {
+                //const myObj = JSON.parse(this.responseText);
+                //console.log(myObj);
+                if (this.status == 200) {
+                    window.location.reload();
+                } else {
+                    //tratar erros
+                }
+            }
+
+            xmlhttp.open("POST", URL_API, true);
+            xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+            xmlhttp.send(JSON.stringify(body));
         }
-    }
-
-    xmlhttp.open("POST", URL_API, true);
-    xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
-    xmlhttp.send(JSON.stringify(body));
 
 
     }
-    
+
     function zeroFill(n) {
         return n < 10 ? `0${n}` : `${n}`;
     }
@@ -201,12 +230,12 @@
         return `${d}/${mo}/${y}` + " " + h + "h" + m + "min";
     }
 
-    function calcTempo(data){
+    function calcTempo(data) {
         const dataHJ = new Date();
         dataHJ.setDate(dataHJ.getDate());
         const dataPick = new Date(data);
 
-        const diff = dataPick.getTime() -  dataHJ.getTime();
+        const diff = dataPick.getTime() - dataHJ.getTime();
         const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
 
         return days;
@@ -237,17 +266,17 @@
 
             const aux = calcTempo(e.data);
 
-            if(aux == 0){
+            if (aux == 0) {
                 subdiv.innerHTML = "Hoje";
                 subdiv.classList.add("bg-warning");
-            }else if(aux == 1){
+            } else if (aux == 1) {
                 subdiv.innerHTML = "Amanhã";
                 subdiv.classList.add("bg-warning");
-            }else if(aux < 0){
+            } else if (aux < 0) {
                 subdiv.innerHTML = "Atrasado";
                 subdiv.classList.add("bg-danger");
                 subdiv.classList.add("text-white");
-            }else {
+            } else {
                 subdiv.innerHTML = "Daqui a " + calcTempo(e.data) + " dias";
                 subdiv.classList.add("bg-secondary");
                 subdiv.style = "--bs-bg-opacity: .5;";
@@ -255,9 +284,9 @@
 
             tr.setAttribute("data-bs-toggle", "modal");
             tr.setAttribute("data-bs-target", "#exampleModal");
-            
+
             input.setAttribute("type", "hidden");
-            input.value = JSON.stringify(e); 
+            input.value = JSON.stringify(e);
             const num = "info" + i;
             input.setAttribute("id", num);
             tr.setAttribute("onclick", "choosen(" + num + ")");
@@ -300,7 +329,7 @@
     console.log(id + "erick")
     */
 
-    
+
     //console.log(localStorage.getItem("token"))
 
     const URL_LIST = "http://localhost/sitetodophp/task/list.php";
@@ -319,26 +348,26 @@
     xmlhttp.send();
 
 
-    
+
 
     const nome = document.getElementById("nomeLogout");
 
-   
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function () {
-        if(this.status == 200){
+        if (this.status == 200) {
             console.log(JSON.parse(this.response).nome)
             nome.innerHTML = JSON.parse(this.response).nome + " (Logout)";
         }
         //console.log(JSON.parse(this.response).nome);
-        
+
     }
 
     xmlhttp.open("GET", "http://localhost/sitetodophp/auth/decode_token.php", true);
     xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
     xmlhttp.send();
 
-    
+
 </script>
 
 </html>

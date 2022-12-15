@@ -1,6 +1,7 @@
 <?php
 require_once "../db/connection.inc.php";
 require_once "task.dao.php";
+require_once "../auth/validate-jwt.inc.php";
 
 $taskDao = new TaskDao($pdo);
 
@@ -20,9 +21,7 @@ if(!$id){
     $responseBody = '{ "message": "id não informado"}';
 }else{
     try {
-        $taskDao->update($id,$task);
-    
-        $responseBody = json_encode($task);
+        $responseBody = json_encode($taskDao->update($id,$task, $decoded["sub"]));
     }catch(Exception $e){
         http_response_code(400);
         $responseBody = '{ "message": "Erro ao tentar executar esta ação. Erro:: Código: "' . $e->getCode() . '. Mensagem: ' . $e->getMessage() . '}';
