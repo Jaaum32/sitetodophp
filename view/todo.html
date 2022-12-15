@@ -71,7 +71,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form onsubmit="createTask()">
+                    <form>
                         <div class="mb-3">
                             <label for="titulo" class="col-form-label">Título:</label>
                             <input type="text" class="form-control" id="titulo">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="form" class="btn btn-primary">Salvar</button>
+                    <button type="form" onclick="createTask()" class="btn btn-primary">Salvar</button>
                 </div>
             </div>
         </div>
@@ -115,29 +115,36 @@
 
     function createTask(){
 
-    const URL_API = "http://localhost/sitetodophp/task/create.php?id_usuario";
+    const URL_API = "http://localhost/sitetodophp/task/create.php";
 
     const titulo = document.getElementById("titulo").value;
     const descricao = document.getElementById("descricao").value;
     const datahora = formatDtBd(document.getElementById("datahora").value);
 
-    alert(typeof document.getElementById("datahora").value);
-    alert(typeof formatDtBd(document.getElementById("datahora").value));
     const body = {
         titulo: titulo,
         descricao: descricao,
-        datahora: datahora,
-        id_usuario: 1
+        datahora: datahora
     }
-    alert("jao1");
-      fetch(URL_API, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application.json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    });
+
+    console.log(JSON.stringify(body))
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function () {
+        const myObj = JSON.parse(this.responseText);
+        console.log(myObj);
+        if(this.status == 200){
+            window.location.reload();
+        }else{
+            //tratar erros
+        }
+    }
+
+    xmlhttp.open("POST", URL_API, true);
+    xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+    xmlhttp.send(JSON.stringify(body));
+
+
     }
     
     function zeroFill(n) {
@@ -168,7 +175,7 @@
 
     function exibir(tarefasArray) {
         tarefasArray.forEach((e) => {
-            console.log(e.titulo)
+            //console.log(e.titulo)
 
             const tr = document.createElement('tr');
             const td = document.createElement('td');
@@ -260,7 +267,7 @@
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function () {
         const myObj = JSON.parse(this.responseText);
-        console.log(myObj);
+        //console.log(myObj);
         exibir(myObj);
     }
 

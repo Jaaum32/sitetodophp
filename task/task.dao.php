@@ -6,14 +6,14 @@ class TaskDao
         $this->pdo = $pdo;
     }
     
-    public function insert($task)
+    public function insert($task, $id_usuario)
     {
         $stmt = $this->pdo->prepare("INSERT INTO tb_tarefa (titulo, descricao, data, concluido, id_usuario) VALUES (:titulo, :descricao, :data, :concluido, :id_usuario)");
         $stmt->bindValue(':titulo', $task->titulo);
         $stmt->bindValue(':descricao', $task->descricao);
-        $stmt->bindValue(':data', $task->data);
-        $stmt->bindValue(':concluido', $task->concluido);
-        $stmt->bindValue(':id_usuario', $task->id_usuario);
+        $stmt->bindValue(':data', $task->datahora);
+        $stmt->bindValue(':concluido', false);
+        $stmt->bindValue(':id_usuario', $id_usuario);
 
         $stmt->execute();
         $task = clone $task;

@@ -1,6 +1,7 @@
 <?php
 require_once "../db/connection.inc.php";
 require_once "task.dao.php";
+require_once "../auth/validate-jwt.inc.php";
 
 $taskDao = new TaskDao($pdo);
 
@@ -11,7 +12,7 @@ $task = json_decode($json);
 $responseBody = '';
 
 try {
-    $task = $taskDao->insert($task);
+    $task = $taskDao->insert($task, $decoded["sub"]);
 
     $responseBody = json_encode($task);
 }catch(Exception $e){
