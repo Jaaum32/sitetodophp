@@ -165,6 +165,23 @@
         const descricao = document.getElementById("descricao").value;
         const datahora = formatDtBd(document.getElementById("datahora").value);
 
+        if(document.getElementById("flexSwitchCheckDefault").checked){
+            const URL_API = "http://localhost/sitetodophp/task/delete.php?id="+idTask;
+            
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onload = function () {
+                if (this.status == 200) {
+                    window.location.reload();
+                } else {
+                    //tratar erros
+                }
+            }
+
+            xmlhttp.open("GET", URL_API, true);
+            xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+            xmlhttp.send();
+        }
+
         console.log(idTask);
 
         if (idTask == -1) {
