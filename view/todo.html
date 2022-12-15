@@ -133,6 +133,11 @@
     }
 
     function choosen(info) {
+        const check = document.getElementById("flexSwitchCheckDefault");
+        check.removeAttribute("hidden");
+        const label = document.getElementById("labelCheck");
+        label.removeAttribute("hidden");
+
         const e = JSON.parse(info.value);
         document.getElementById("titulo").value = e.titulo;
         document.getElementById("descricao").value = e.descricao;
