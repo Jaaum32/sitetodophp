@@ -80,15 +80,15 @@
                     <form>
                         <div class="mb-3">
                             <label for="titulo" class="col-form-label">Título:</label>
-                            <input type="text" required class="form-control" id="titulo">
+                            <input type="text" class="form-control" id="titulo">
                         </div>
                         <div class="mb-3">
                             <label for="descricao" class="col-form-label">Descrição:</label>
-                            <textarea class="form-control" required id="descricao"></textarea>
+                            <textarea class="form-control" id="descricao"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="datahora" class="col-form-label">Data e hora:</label>
-                            <input type="datetime-local" required class="form-control" id="datahora">
+                            <input type="datetime-local" class="form-control" id="datahora">
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
@@ -165,15 +165,15 @@
         const descricao = document.getElementById("descricao").value;
         const datahora = formatDtBd(document.getElementById("datahora").value);
 
-        if(document.getElementById("flexSwitchCheckDefault").checked){
-            const URL_API = "http://localhost/sitetodophp/task/delete.php?id="+idTask;
-            
+        if (document.getElementById("flexSwitchCheckDefault").checked) {
+            const URL_API = "http://localhost/sitetodophp/task/delete.php?id=" + idTask;
+
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onload = function () {
                 if (this.status == 200) {
                     window.location.reload();
                 } else {
-                    console.log(JSON.parse(this.response).message)//tá aqui a mensagem de erro joão
+                    //tratar erros
                 }
             }
 
@@ -201,7 +201,7 @@
                 if (this.status == 200) {
                     window.location.reload();
                 } else {
-                    console.log(JSON.parse(this.response).message)//tá aqui a mensagem de erro joão
+                    //tratar erros
                 }
             }
 
@@ -209,7 +209,7 @@
             xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
             xmlhttp.send(JSON.stringify(body));
         } else {
-            const URL_API = "http://localhost/sitetodophp/task/update.php?id="+idTask;
+            const URL_API = "http://localhost/sitetodophp/task/update.php?id=" + idTask;
             const body = {
                 titulo: titulo,
                 descricao: descricao,
@@ -225,7 +225,7 @@
                 if (this.status == 200) {
                     window.location.reload();
                 } else {
-                    console.log(JSON.parse(this.response).message)//tá aqui a mensagem de erro joão
+                    //tratar erros
                 }
             }
 
@@ -253,14 +253,20 @@
     }
 
     function calcTempo(data) {
-        const dataHJ = new Date();
-        dataHJ.setDate(dataHJ.getDate());
-        const dataPick = new Date(data);
+        const URL_DATA = "http://localhost/sitetodophp/task/data.php?data=" + data;
 
-        const diff = dataPick.getTime() - dataHJ.getTime();
-        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        var xmlhttp = new XMLHttpRequest();
+        const txtData = "";
 
-        return days;
+        xmlhttp.onload = function () {
+            txtData = this.response;
+            console.log(this.response);
+        }
+
+        xmlhttp.open("GET", URL_DATA, true);
+        xmlhttp.send();
+
+        return txtData;
     }
 
     function exibir(tarefasArray) {
