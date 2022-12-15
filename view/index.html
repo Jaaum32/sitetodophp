@@ -48,15 +48,12 @@
     const name = document.getElementById("inputNome").value;
     const email = document.getElementById("inputEmail").value;
     const nascimento = document.getElementById("inputNascimento").value;
-    const type = document.getElementById("inputType").value;
-    const login = document.getElementById("inputLogin").value;
     const pass = document.getElementById("inputPass").value;
 
     const body = {
       nome: name,
       email: email,
       nascimento: nascimento,
-      login: login,
       senha: pass
     }
 
@@ -80,7 +77,10 @@
 
         if (status != 200) {
           if(response.codigo == 23000){
-            console.log("Este email já está cadastrado.")//á aqui a mensagem de erro joão
+            //
+            document.getElementById("alertSignup").innerHTML = "Este email já está cadastrado.";
+            document.getElementById("alertSignup").removeAttribute("hidden")
+            //console.log("Este email já está cadastrado.")//á aqui a mensagem de erro joão
           }
         }
         else {
@@ -137,6 +137,8 @@
         window.location.assign("../view/todo.html")
       } else {
         console.log(JSON.parse(this.response).message)//tá aqui a mensagem de erro joão
+        document.getElementById("alertLogin").innerHTML = JSON.parse(this.response).message;
+        document.getElementById("alertLogin").removeAttribute("hidden")
       }
     }
 
@@ -186,6 +188,7 @@
         </div>
         <div class="modal-body">
           <h5>Novo usuário</h5>
+          <div hidden id="alertSignup" class="alert alert-danger" role="alert"></div>
           <form>
             <div class="mb-2">
               <label for="inputNome" class="col-form-label">Nome</label>
@@ -199,10 +202,6 @@
             <div class="mb-2">
               <label for="inputNasc" class="col-form-label">Nascimento</label>
               <input type="date" required value="2022-12-07" class="form-control" id="inputNascimento">
-            </div>
-            <div class="mb-2">
-              <label for="inputType" class="col-form-label">Type</label>
-              <input type="text" required value="fodase" class="form-control" id="inputType" placeholder="Usuário">
             </div>
             <div class="mb-2">
               <label for="inputPassword" class="col-form-label">Senha</label>
@@ -227,6 +226,8 @@
         </div>
         <div class="modal-body">
           <h5>Login</h5>
+          <div hidden id="alertLogin" class="alert alert-danger" role="alert">
+          </div>
           <form>
             <div class="mb-2">
               <label for="inputEmailLogin" class="col-form-label">Email</label>
