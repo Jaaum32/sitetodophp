@@ -76,10 +76,12 @@
         return response.json();
       })
       .then(response => {
-        console.log(response);
+        //console.log(response);
 
         if (status != 200) {
-          alert(response.message);
+          if(response.codigo == 23000){
+            console.log("Este email já está cadastrado.")//á aqui a mensagem de erro joão
+          }
         }
         else {
 
@@ -100,6 +102,7 @@
               console.log(localStorage.getItem('token'))
               window.location.assign("../view/todo.html")
             } else {
+              console.log(this.response)
               //tratar o erro
             }
           }
@@ -130,10 +133,10 @@
 
       if (this.status == 200) {
         localStorage.setItem('token', JSON.parse(this.response).token);
-        console.log(localStorage.getItem('token'))
+        //console.log(localStorage.getItem('token'))
         window.location.assign("../view/todo.html")
       } else {
-        //tratar o erro
+        console.log(JSON.parse(this.response).message)//tá aqui a mensagem de erro joão
       }
     }
 

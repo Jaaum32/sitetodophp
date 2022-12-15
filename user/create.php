@@ -15,7 +15,12 @@ try {
     $responseBody = json_encode($user);
 }catch(Exception $e){
     http_response_code(400);
-    $responseBody = '{ "message": "não inseriu ;-;. Erro:: Código: "' . $e->getCode() . '. Mensagem: ' . $e->getMessage() . '}';
+
+    $responseBody = [
+        "codigo"=> $e->getCode(),
+        "message"=> $e->getMessage()
+    ];
+    //$responseBody = '{"codigo: ": ' . $e->getCode() . '" message": ' . $e->getMessage() . '}';
     $responseBody = json_encode($responseBody);
 }
 
