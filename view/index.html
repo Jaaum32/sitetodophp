@@ -40,80 +40,76 @@
 
 <script>
   function signup() {
-    //alert("entrou");
-    const URL_API = "http://localhost/sitetodophp/user/create.php";
-
-
-
     const name = document.getElementById("inputNome").value;
     const email = document.getElementById("inputEmail").value;
     const nascimento = document.getElementById("inputNascimento").value;
     const pass = document.getElementById("inputPass").value;
+    if (name == "" || email == "" || nascimento == "" || pass == "") {
+      document.getElementById("alertSignup").innerHTML = "Peencha os campos.";
+      document.getElementById("alertSignup").removeAttribute("hidden")
+    } else {
+      const URL_API = "http://localhost/sitetodophp/user/create.php";
+      const body = {
+        nome: name,
+        email: email,
+        nascimento: nascimento,
+        senha: pass
+      }
 
-    const body = {
-      nome: name,
-      email: email,
-      nascimento: nascimento,
-      senha: pass
-    }
-
-    fetch(URL_API, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Accept': 'application/json',
-        //'Authorization': localStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-
-      .then(response => {
-        status = response.status;
-        return response.json();
+      fetch(URL_API, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
       })
-      .then(response => {
-        //console.log(response);
 
-        if (status != 200) {
-          if(response.codigo == 23000){
-            //
-            document.getElementById("alertSignup").innerHTML = "Este email já está cadastrado.";
-            document.getElementById("alertSignup").removeAttribute("hidden")
-            //console.log("Este email já está cadastrado.")//á aqui a mensagem de erro joão
-          }
-        }
-        else {
+        .then(response => {
+          status = response.status;
+          return response.json();
+        })
+        .then(response => {
 
-
-          const URL_API_LOGIN = "http://localhost/sitetodophp/auth/auth.php";
-
-          const body = {
-            email: email,
-            senha: pass
-          }
-
-          const xhttp = new XMLHttpRequest();
-
-          xhttp.onload = function () {
-
-            if (this.status == 200) {
-              localStorage.setItem('token', JSON.parse(this.response).token);
-              console.log(localStorage.getItem('token'))
-              window.location.assign("../view/todo.html")
-            } else {
-              console.log(this.response)
-              //tratar o erro
+          if (status != 200) {
+            if (response.codigo == 23000) {
+              //
+              document.getElementById("alertSignup").innerHTML = "Este email já está cadastrado.";
+              document.getElementById("alertSignup").removeAttribute("hidden")
             }
           }
-
-          xhttp.open("POST", URL_API_LOGIN);
-          xhttp.send(JSON.stringify(body));
+          else {
 
 
-        }
+            const URL_API_LOGIN = "http://localhost/sitetodophp/auth/auth.php";
 
-      })
+            const body = {
+              email: email,
+              senha: pass
+            }
+
+            const xhttp = new XMLHttpRequest();
+
+            xhttp.onload = function () {
+
+              if (this.status == 200) {
+                localStorage.setItem('token', JSON.parse(this.response).token);
+                console.log(localStorage.getItem('token'))
+                window.location.assign("../view/todo.html")
+              } else {
+                console.log(this.response)
+              }
+            }
+
+            xhttp.open("POST", URL_API_LOGIN);
+            xhttp.send(JSON.stringify(body));
+
+
+          }
+
+        })
+    }
   }
 
   function signin() {
@@ -122,28 +118,31 @@
     const email = document.getElementById("inputEmailLogin").value;
     const pass = document.getElementById("inputPassLogin").value;
 
-    body = {
-      email: email,
-      senha: pass
-    }
-
-    const xhttp = new XMLHttpRequest();
-
-    xhttp.onload = function () {
-
-      if (this.status == 200) {
-        localStorage.setItem('token', JSON.parse(this.response).token);
-        //console.log(localStorage.getItem('token'))
-        window.location.assign("../view/todo.html")
-      } else {
-        console.log(JSON.parse(this.response).message)//tá aqui a mensagem de erro joão
-        document.getElementById("alertLogin").innerHTML = JSON.parse(this.response).message;
-        document.getElementById("alertLogin").removeAttribute("hidden")
+    if (email == "" || pass == "") {
+      document.getElementById("alertLogin").innerHTML = "Preencha os campos";
+      document.getElementById("alertLogin").removeAttribute("hidden")
+    } else {
+      body = {
+        email: email,
+        senha: pass
       }
-    }
 
-    xhttp.open("POST", URL_API);
-    xhttp.send(JSON.stringify(body));
+      const xhttp = new XMLHttpRequest();
+
+      xhttp.onload = function () {
+
+        if (this.status == 200) {
+          localStorage.setItem('token', JSON.parse(this.response).token);
+          window.location.assign("../view/todo.html")
+        } else {
+          document.getElementById("alertLogin").innerHTML = JSON.parse(this.response).message;
+          document.getElementById("alertLogin").removeAttribute("hidden")
+        }
+      }
+
+      xhttp.open("POST", URL_API);
+      xhttp.send(JSON.stringify(body));
+    }
   }
 
 </script>

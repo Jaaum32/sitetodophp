@@ -13,7 +13,6 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.1/font/bootstrap-icons.css">
 </head>
-<!-- xampsu -->
 <style>
     main {
         min-width: 90vw;
@@ -77,18 +76,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div hidden id="alert" class="alert alert-danger" role="alert"></div>
                     <form>
                         <div class="mb-3">
                             <label for="titulo" class="col-form-label">Título:</label>
-                            <input type="text" class="form-control" id="titulo">
+                            <input type="text" required class="form-control" id="titulo">
                         </div>
                         <div class="mb-3">
                             <label for="descricao" class="col-form-label">Descrição:</label>
-                            <textarea class="form-control" id="descricao"></textarea>
+                            <textarea class="form-control" required id="descricao"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="datahora" class="col-form-label">Data e hora:</label>
-                            <input type="datetime-local" class="form-control" id="datahora">
+                            <input type="datetime-local" required class="form-control" id="datahora">
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
@@ -165,75 +165,75 @@
         const descricao = document.getElementById("descricao").value;
         const datahora = formatDtBd(document.getElementById("datahora").value);
 
-        if (document.getElementById("flexSwitchCheckDefault").checked) {
-            const URL_API = "http://localhost/sitetodophp/task/delete.php?id=" + idTask;
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onload = function () {
-                if (this.status == 200) {
-                    window.location.reload();
-                } else {
-                    //tratar erros
-                }
-            }
-
-            xmlhttp.open("GET", URL_API, true);
-            xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
-            xmlhttp.send();
-        }
-
-        console.log(idTask);
-
-        if (idTask == -1) {
-            const URL_API = "http://localhost/sitetodophp/task/create.php";
-            const body = {
-                titulo: titulo,
-                descricao: descricao,
-                datahora: datahora
-            }
-
-            console.log(JSON.stringify(body))
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onload = function () {
-                const myObj = JSON.parse(this.responseText);
-                console.log(myObj);
-                if (this.status == 200) {
-                    window.location.reload();
-                } else {
-                    //tratar erros
-                }
-            }
-
-            xmlhttp.open("POST", URL_API, true);
-            xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
-            xmlhttp.send(JSON.stringify(body));
+        if (idTask == "" || titulo == "" || descricao == "" || datahora == "NaN-NaN-NaN NaN:NaN:00") {
+            document.getElementById("alert").innerHTML = "Preencha os campos";
+            document.getElementById("alert").removeAttribute("hidden");
         } else {
-            const URL_API = "http://localhost/sitetodophp/task/update.php?id=" + idTask;
-            const body = {
-                titulo: titulo,
-                descricao: descricao,
-                datahora: datahora
-            }
+            if (document.getElementById("flexSwitchCheckDefault").checked) {
+                const URL_API = "http://localhost/sitetodophp/task/delete.php?id=" + idTask;
 
-            console.log(JSON.stringify(body))
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onload = function () {
-                //const myObj = JSON.parse(this.responseText);
-                //console.log(myObj);
-                if (this.status == 200) {
-                    window.location.reload();
-                } else {
-                    //tratar erros
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onload = function () {
+                    if (this.status == 200) {
+                        window.location.reload();
+                    } else {
+                        //tratar erros
+                    }
                 }
+
+                xmlhttp.open("GET", URL_API, true);
+                xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+                xmlhttp.send();
             }
 
-            xmlhttp.open("POST", URL_API, true);
-            xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
-            xmlhttp.send(JSON.stringify(body));
-        }
+            if (idTask == -1) {
+                const URL_API = "http://localhost/sitetodophp/task/create.php";
+                const body = {
+                    titulo: titulo,
+                    descricao: descricao,
+                    datahora: datahora
+                }
 
+                console.log(JSON.stringify(body))
+
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onload = function () {
+                    const myObj = JSON.parse(this.responseText);
+                    console.log(myObj);
+                    if (this.status == 200) {
+                        window.location.reload();
+                    } else {
+                        //tratar erros
+                    }
+                }
+
+                xmlhttp.open("POST", URL_API, true);
+                xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+                xmlhttp.send(JSON.stringify(body));
+            } else {
+                const URL_API = "http://localhost/sitetodophp/task/update.php?id=" + idTask;
+                const body = {
+                    titulo: titulo,
+                    descricao: descricao,
+                    datahora: datahora
+                }
+
+                console.log(JSON.stringify(body))
+
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onload = function () {
+                    if (this.status == 200) {
+                        window.location.reload();
+                    } else {
+                        //tratar erros
+                    }
+                }
+
+                xmlhttp.open("POST", URL_API, true);
+                xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+                xmlhttp.send(JSON.stringify(body));
+            }
+        }
 
     }
 
@@ -253,25 +253,29 @@
     }
 
     function calcTempo(data) {
-        const URL_DATA = "http://localhost/sitetodophp/task/data.php?data=" + data;
+
+        const URL_DATA = "http://localhost/sitetodophp/task/data.php";
 
         var xmlhttp = new XMLHttpRequest();
-        const txtData = "";
+        var txtData;
+
+        const body = {
+            data: data
+        }
 
         xmlhttp.onload = function () {
             txtData = this.response;
-            console.log(this.response);
+            console.log(txtData);
         }
 
-        xmlhttp.open("GET", URL_DATA, true);
-        xmlhttp.send();
+        xmlhttp.open("POST", URL_DATA, true);
+        xmlhttp.send(JSON.stringify(body));
 
-        return txtData;
+
     }
 
     function exibir(tarefasArray) {
         tarefasArray.forEach((e, i) => {
-            //console.log(e.titulo)
 
             const tr = document.createElement('tr');
             const td = document.createElement('td');
@@ -292,73 +296,64 @@
             subdiv.classList.add("p-2");
             subdiv.classList.add("rounded-pill");
 
-            const aux = calcTempo(e.data);
 
-            if (aux == 0) {
-                subdiv.innerHTML = "Hoje";
-                subdiv.classList.add("bg-warning");
-            } else if (aux == 1) {
-                subdiv.innerHTML = "Amanhã";
-                subdiv.classList.add("bg-warning");
-            } else if (aux < 0) {
-                subdiv.innerHTML = "Atrasado";
-                subdiv.classList.add("bg-danger");
-                subdiv.classList.add("text-white");
-            } else {
-                subdiv.innerHTML = "Daqui a " + calcTempo(e.data) + " dias";
-                subdiv.classList.add("bg-secondary");
-                subdiv.style = "--bs-bg-opacity: .5;";
+            const URL_DATA = "http://localhost/sitetodophp/task/data.php";
+
+            var xmlhttp = new XMLHttpRequest();
+            var txtData;
+
+            const body = {
+                data: e.data
             }
 
-            tr.setAttribute("data-bs-toggle", "modal");
-            tr.setAttribute("data-bs-target", "#exampleModal");
+            xmlhttp.onload = function () {
+                aux = this.response;
+                console.log(txtData);
 
-            input.setAttribute("type", "hidden");
-            input.value = JSON.stringify(e);
-            const num = "info" + i;
-            input.setAttribute("id", num);
-            tr.setAttribute("onclick", "choosen(" + num + ")");
+                if (aux == "Hoje") {
+                    subdiv.innerHTML = aux;
+                    subdiv.classList.add("bg-warning");
+                } else if (aux == "Amanhã") {
+                    subdiv.innerHTML = aux;
+                    subdiv.classList.add("bg-warning");
+                } else if (aux == "Atrasado") {
+                    subdiv.innerHTML = aux;
+                    subdiv.classList.add("bg-danger");
+                    subdiv.classList.add("text-white");
+                } else {
+                    subdiv.innerHTML = aux;
+                    subdiv.classList.add("bg-secondary");
+                    subdiv.style = "--bs-bg-opacity: .5;";
+                }
 
-            div.appendChild(h3);
-            div.appendChild(subdiv);
+                tr.setAttribute("data-bs-toggle", "modal");
+                tr.setAttribute("data-bs-target", "#exampleModal");
 
-            td.appendChild(div);
-            td.appendChild(h5);
-            td.appendChild(h6);
+                input.setAttribute("type", "hidden");
+                input.value = JSON.stringify(e);
+                const num = "info" + i;
+                input.setAttribute("id", num);
+                tr.setAttribute("onclick", "choosen(" + num + ")");
 
-            tr.appendChild(td);
-            tr.appendChild(input);
-            tarefas.appendChild(tr);
+                div.appendChild(h3);
+                div.appendChild(subdiv);
+
+                td.appendChild(div);
+                td.appendChild(h5);
+                td.appendChild(h6);
+
+                tr.appendChild(td);
+                tr.appendChild(input);
+                tarefas.appendChild(tr);
+            }
+
+            xmlhttp.open("POST", URL_DATA, true);
+            xmlhttp.send(JSON.stringify(body));
+
+
         });
 
     }
-
-
-    //console.log(localStorage.token)
-    //console.log(localStorage.getItem("token"))
-
-    /*
-    const URL_LIST_TOKEN = "http://localhost/sitetodophp/auth/validate-jwt.inc.php";
-    var id;
-
-    var xmlhttpToken = new XMLHttpRequest();
-    xmlhttpToken.onload = function () {  
-        if(this.status == 200){
-            //console.log(JSON.parse(this.response))
-            id = JSON.parse(this.response)
-            console.log(id)
-        }
-    }
-
-    xmlhttpToken.open("GET", URL_LIST_TOKEN, true);
-    xmlhttpToken.setRequestHeader("Authorization", localStorage.getItem('token'))
-    xmlhttpToken.send();
-
-    console.log(id + "erick")
-    */
-
-
-    //console.log(localStorage.getItem("token"))
 
     const URL_LIST = "http://localhost/sitetodophp/task/list.php";
 
@@ -367,7 +362,6 @@
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function () {
         const myObj = JSON.parse(this.responseText);
-        //console.log(myObj);
         exibir(myObj);
     }
 
@@ -387,7 +381,7 @@
             console.log(JSON.parse(this.response).nome)
             nome.innerHTML = JSON.parse(this.response).nome + " (Logout)";
         }
-        //console.log(JSON.parse(this.response).nome);
+
 
     }
 

@@ -1,18 +1,36 @@
 <?php
-$responseBody = '';
-$dataEvento = @$_REQUEST['data'];
+date_default_timezone_set("America/Sao_Paulo");
 
-if($dataEvento < date('y-m-d h:i:s')){
+$json = file_get_contents('php://input');
+
+$data = json_decode($json);
+
+$responseBody = '';
+$dataEvento = new DateTime($data->data);
+
+$dataAtual = new DateTime();
+
+//echo $dataAtual->format('Y-m-d h:i:s');
+
+//echo gettype($dataEvento);
+//echo $dataEvento;
+//echo $dataAtual->format('Y-m-d');
+
+
+if($dataEvento < $dataAtual){
     $responseBody = "Atrasado";
 }else {
-    $dateInterval = $$dataEvento->diff(date('y-m-d h:i:s'));
+    $dateInterval = $dataAtual->diff($dataEvento);
 
-    if($dateInterval->d == 0){
-        $responseBody = "Hoje"; 
-    }else if($dateInterval->d == 1){
-        $responseBody = "Amanha"; 
+    if($dateInterval->days == 0){
+        if($dataAtual->format("d") != $dataEvento->format("d")){
+            $responseBody = "Amanhã";
+        }else{
+            $responseBody = "Hoje"; 
+        }
+        
     }else{
-        $responseBody = "Daqui a ".$dateInterval->d." dias"; 
+        $responseBody = "Daqui a ".($dateInterval->d + 1)." dias"; 
     }
 }
 
