@@ -66,7 +66,6 @@
         </div>
     </footer>
 
-    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <input type="hidden" id="idSalvar" value="">
         <div class="modal-dialog">
@@ -170,14 +169,13 @@
             document.getElementById("alert").removeAttribute("hidden");
         } else {
             if (document.getElementById("flexSwitchCheckDefault").checked) {
-                const URL_API = "http://localhost/sitetodophp/task/delete.php?id=" + idTask;
+                const URL_API = "http://localhost/sitetodophp/be/task/delete.php?id=" + idTask;
 
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onload = function () {
                     if (this.status == 200) {
                         window.location.reload();
                     } else {
-                        //tratar erros
                     }
                 }
 
@@ -187,23 +185,20 @@
             }
 
             if (idTask == -1) {
-                const URL_API = "http://localhost/sitetodophp/task/create.php";
+                const URL_API = "http://localhost/sitetodophp/be/task/create.php";
                 const body = {
                     titulo: titulo,
                     descricao: descricao,
                     datahora: datahora
                 }
 
-                console.log(JSON.stringify(body))
 
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onload = function () {
                     const myObj = JSON.parse(this.responseText);
-                    console.log(myObj);
                     if (this.status == 200) {
                         window.location.reload();
                     } else {
-                        //tratar erros
                     }
                 }
 
@@ -211,21 +206,19 @@
                 xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
                 xmlhttp.send(JSON.stringify(body));
             } else {
-                const URL_API = "http://localhost/sitetodophp/task/update.php?id=" + idTask;
+                const URL_API = "http://localhost/sitetodophp/be/task/update.php?id=" + idTask;
                 const body = {
                     titulo: titulo,
                     descricao: descricao,
                     datahora: datahora
                 }
 
-                console.log(JSON.stringify(body))
 
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onload = function () {
                     if (this.status == 200) {
                         window.location.reload();
                     } else {
-                        //tratar erros
                     }
                 }
 
@@ -254,7 +247,7 @@
 
     function calcTempo(data) {
 
-        const URL_DATA = "http://localhost/sitetodophp/task/data.php";
+        const URL_DATA = "http://localhost/sitetodophp/be/task/data.php";
 
         var xmlhttp = new XMLHttpRequest();
         var txtData;
@@ -265,7 +258,6 @@
 
         xmlhttp.onload = function () {
             txtData = this.response;
-            console.log(txtData);
         }
 
         xmlhttp.open("POST", URL_DATA, true);
@@ -297,7 +289,7 @@
             subdiv.classList.add("rounded-pill");
 
 
-            const URL_DATA = "http://localhost/sitetodophp/task/data.php";
+            const URL_DATA = "http://localhost/sitetodophp/be/task/data.php";
 
             var xmlhttp = new XMLHttpRequest();
             var txtData;
@@ -308,7 +300,6 @@
 
             xmlhttp.onload = function () {
                 aux = this.response;
-                console.log(txtData);
 
                 if (aux == "Hoje") {
                     subdiv.innerHTML = aux;
@@ -355,7 +346,7 @@
 
     }
 
-    const URL_LIST = "http://localhost/sitetodophp/task/list.php";
+    const URL_LIST = "http://localhost/sitetodophp/be/task/list.php";
 
     const tarefas = document.getElementById("tarefas");
 
@@ -378,14 +369,13 @@
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function () {
         if (this.status == 200) {
-            console.log(JSON.parse(this.response).nome)
             nome.innerHTML = JSON.parse(this.response).nome + " (Logout)";
         }
 
 
     }
 
-    xmlhttp.open("GET", "http://localhost/sitetodophp/auth/decode_token.php", true);
+    xmlhttp.open("GET", "http://localhost/sitetodophp/be/auth/decode_token.php", true);
     xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
     xmlhttp.send();
 

@@ -8,8 +8,6 @@ $json = file_get_contents('php://input');
 
 $user = json_decode($json);
 
-//$responseBody;
-
 try {
     $user = $userDao->insert($user);
     $responseBody = json_encode($user);
@@ -20,7 +18,6 @@ try {
         "codigo"=> $e->getCode(),
         "message"=> $e->getMessage()
     ];
-    //$responseBody = '{"codigo: ": ' . $e->getCode() . '" message": ' . $e->getMessage() . '}';
     $responseBody = json_encode($responseBody);
 }
 

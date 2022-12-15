@@ -11,7 +11,6 @@ array_push(
     nascimento date NULL,
     email varchar(100) NULL,
     senha varchar(20) NULL,
-    login varchar(20),
     PRIMARY KEY  (id),
     UNIQUE(email)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"

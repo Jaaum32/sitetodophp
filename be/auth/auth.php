@@ -36,7 +36,6 @@ $responseBody = 'deu certo?'; // Variável para armazenar a resposta para o clie
  */
 
 $user = $userDao->getByEmail(@$credentials->email);
-//print_r($user);
 
 if (empty($user)) {
     http_response_code(400);

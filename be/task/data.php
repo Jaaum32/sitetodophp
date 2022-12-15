@@ -10,13 +10,6 @@ $dataEvento = new DateTime($data->data);
 
 $dataAtual = new DateTime();
 
-//echo $dataAtual->format('Y-m-d h:i:s');
-
-//echo gettype($dataEvento);
-//echo $dataEvento;
-//echo $dataAtual->format('Y-m-d');
-
-
 if($dataEvento < $dataAtual){
     $responseBody = "Atrasado";
 }else {

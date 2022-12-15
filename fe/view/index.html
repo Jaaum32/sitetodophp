@@ -48,7 +48,7 @@
       document.getElementById("alertSignup").innerHTML = "Peencha os campos.";
       document.getElementById("alertSignup").removeAttribute("hidden")
     } else {
-      const URL_API = "http://localhost/sitetodophp/user/create.php";
+      const URL_API = "http://localhost/sitetodophp/be/user/create.php";
       const body = {
         nome: name,
         email: email,
@@ -74,7 +74,6 @@
 
           if (status != 200) {
             if (response.codigo == 23000) {
-              //
               document.getElementById("alertSignup").innerHTML = "Este email já está cadastrado.";
               document.getElementById("alertSignup").removeAttribute("hidden")
             }
@@ -82,7 +81,7 @@
           else {
 
 
-            const URL_API_LOGIN = "http://localhost/sitetodophp/auth/auth.php";
+            const URL_API_LOGIN = "http://localhost/sitetodophp/be/auth/auth.php";
 
             const body = {
               email: email,
@@ -95,10 +94,8 @@
 
               if (this.status == 200) {
                 localStorage.setItem('token', JSON.parse(this.response).token);
-                console.log(localStorage.getItem('token'))
                 window.location.assign("../view/todo.html")
               } else {
-                console.log(this.response)
               }
             }
 
@@ -113,7 +110,7 @@
   }
 
   function signin() {
-    const URL_API = "http://localhost/sitetodophp/auth/auth.php";
+    const URL_API = "http://localhost/sitetodophp/be/auth/auth.php";
 
     const email = document.getElementById("inputEmailLogin").value;
     const pass = document.getElementById("inputPassLogin").value;
