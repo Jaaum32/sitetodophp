@@ -68,6 +68,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <input type="hidden" id="idSalvar" value="">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -120,15 +121,23 @@
         check.setAttribute("hidden", null);
         const label = document.getElementById("labelCheck");
         label.setAttribute("hidden", null);
+
+        document.getElementById("titulo").value = "";
+        document.getElementById("descricao").value = "";
+        document.getElementById("datahora").value = "";
+
+        const input = document.getElementById('idSalvar');
+        input.value = -1; 
     }
 
     function choosen(info){
-        console.log(info);
         const e = JSON.parse(info.value);
-        console.log("e=" + e.id);
         document.getElementById("titulo").value = e.titulo;
         document.getElementById("descricao").value = e.descricao;
         document.getElementById("datahora").value = e.data;
+
+        const input = document.getElementById('idSalvar');
+        input.value = e.id; 
     }
 
     function formatDtBd(data) {
