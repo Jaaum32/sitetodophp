@@ -45,7 +45,8 @@ if (empty($user)) {
     if ($user->senha == $credentials->senha) {
         // Array de dados para ser carregado no token (aceita qualquer atributo e valor).
         $payload = [
-            "sub" => $user->id
+            "sub" => $user->id,
+            "nome" => $user->nome
         ];
 
         // Gerar o token (codificar), usando a classe disponível no arquivo "jwtutil.class.php"

@@ -20,7 +20,7 @@ class UserDAO
     public function getByEmail($email)
     {
         //Prepare our select statement.
-        $stmt = $this->pdo->prepare("SELECT id, senha FROM tb_usuario WHERE email = :email");
+        $stmt = $this->pdo->prepare("SELECT id, senha, nome FROM tb_usuario WHERE email = :email");
         $stmt->bindValue(":email", $email);
         $stmt->execute();
 

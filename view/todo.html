@@ -21,7 +21,11 @@
     }
 </style>
 
-
+<script>
+    if(!localStorage.token){
+        window.location.replace("index.html")
+    }
+</script>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,7 +41,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Usuário</a>
                     </li>
                 </ul>
-                <a href="index.html" class="navbar-text d-flex justify-content-center">Juca (Logout)</a>
+                <a href="index.html" class="navbar-text d-flex justify-content-center" onclick="logout()" id="nomeLogout">Juca (Logout)</a>
             </div>
         </div>
     </nav>
@@ -100,6 +104,17 @@
 </body>
 
 <script>
+
+    if(!localStorage.token){
+        window.location.replace("index.html")
+    }
+
+    function logout(){
+        localStorage.clear();
+        window.location.reload();
+        window.location.replace("index.html")
+    }
+
     function esconder(){
         const check = document.getElementById("flexSwitchCheckDefault");
         check.setAttribute("hidden", null);
@@ -283,10 +298,6 @@
 
     const tarefas = document.getElementById("tarefas");
 
-    const body = {
-        token : localStorage.token
-    }
-
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function () {
         const myObj = JSON.parse(this.responseText);
@@ -295,6 +306,26 @@
     }
 
     xmlhttp.open("GET", URL_LIST, true);
+    xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
+    xmlhttp.send();
+
+
+    
+
+    const nome = document.getElementById("nomeLogout");
+
+   
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function () {
+        if(this.status == 200){
+            console.log(JSON.parse(this.response).nome)
+            nome.innerHTML = JSON.parse(this.response).nome + " (Logout)";
+        }
+        //console.log(JSON.parse(this.response).nome);
+        
+    }
+
+    xmlhttp.open("GET", "http://localhost/sitetodophp/auth/decode_token.php", true);
     xmlhttp.setRequestHeader("Authorization", localStorage.getItem('token'))
     xmlhttp.send();
 
