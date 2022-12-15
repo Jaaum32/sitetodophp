@@ -61,32 +61,56 @@
     }
 
     fetch(URL_API, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Accept': 'application/json',
-                //'Authorization': localStorage.getItem('token'),
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        })
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Accept': 'application/json',
+        //'Authorization': localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
 
-        .then(response => { 
-            status = response.status;
-            return response.json();
-        })
-        .then(response => {
-            console.log(response);
+      .then(response => {
+        status = response.status;
+        return response.json();
+      })
+      .then(response => {
+        console.log(response);
 
-            if(status != 200){
-                alert(response.message);
+        if (status != 200) {
+          alert(response.message);
+        }
+        else {
+
+
+          const URL_API_LOGIN = "http://localhost/sitetodophp/auth/auth.php";
+
+          const body = {
+            email: email,
+            senha: pass
+          }
+
+          const xhttp = new XMLHttpRequest();
+
+          xhttp.onload = function () {
+
+            if (this.status == 200) {
+              localStorage.setItem('token', JSON.parse(this.response).token);
+              console.log(localStorage.getItem('token'))
+              window.location.assign("../view/todo.html")
+            } else {
+              //tratar o erro
             }
-            else{
-                localStorage.setItem('token', response.token);
-                console.log(localStorage.getItem('token'));
-            }
+          }
 
-        })
+          xhttp.open("POST", URL_API_LOGIN);
+          xhttp.send(JSON.stringify(body));
+
+
+        }
+
+      })
   }
 
   function signin() {
@@ -100,22 +124,22 @@
       senha: pass
     }
 
-        const xhttp = new XMLHttpRequest();
+    const xhttp = new XMLHttpRequest();
 
-        xhttp.onload = function(){
-          
-          if(this.status == 200){
-            localStorage.setItem('token', JSON.parse(this.response).token);
-            console.log(localStorage.getItem('token'))
-            window.location.assign("../view/todo.html")
-          }else{
-            //tratar o erro
-          }
-        }
+    xhttp.onload = function () {
 
-        xhttp.open("POST", URL_API);
-        xhttp.send(JSON.stringify(body));
-}
+      if (this.status == 200) {
+        localStorage.setItem('token', JSON.parse(this.response).token);
+        console.log(localStorage.getItem('token'))
+        window.location.assign("../view/todo.html")
+      } else {
+        //tratar o erro
+      }
+    }
+
+    xhttp.open("POST", URL_API);
+    xhttp.send(JSON.stringify(body));
+  }
 
 </script>
 
